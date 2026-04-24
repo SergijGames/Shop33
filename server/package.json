@@ -1,0 +1,15 @@
+{
+  "name": "shop31-payment-api",
+  "description": "Shop31 — API оплати Stripe (Express). Запуск: npm start у каталозі server/. Див. docs/СТРУКТУРА-ПРОЄКТУ.md",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "stripe": "^17.7.0"
+  }
+}

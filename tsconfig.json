@@ -1,0 +1,8 @@
+{
+  // Shop31: корінь solution TypeScript — посилання на app (React) та node (Vite).
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
