@@ -27,6 +27,12 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Typecheck and build (base = /repo/ for GitHub Pages)
+        env:
+          # Backend API base (Render/Railway). Add it in GitHub → Settings → Secrets and variables → Actions.
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          # Payments (optional, only if you enable Stripe/LiqPay in prod)
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_LIQPAY_ENABLED: ${{ secrets.VITE_LIQPAY_ENABLED }}
         run: npx tsc -b && npx vite build --base=/${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v3
         with:

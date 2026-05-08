@@ -1,5 +1,5 @@
 /**
- * Shop31 — оформлення замовлення: контакти, бонуси, демо або Stripe Elements.
+ * Shop31 — оформлення замовлення: контакти, бонуси, оплата (без карти / Stripe / LiqPay).
  * Зв’язки: ShopContext, AuthContext, bonusStorage, CheckoutStripePayment, ordersStorage
  */
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
@@ -170,7 +170,7 @@ export function CheckoutPage() {
       lines,
       subtotalUah,
       totalUah: p.paidAfter,
-      paymentMethod: 'demo',
+      paymentMethod: 'manual',
     }
 
     if (user?.email) {
@@ -327,6 +327,20 @@ export function CheckoutPage() {
           amountUah: p.paidAfter,
           clientReferenceId: orderId,
           customerEmail: user?.email,
+          orderDraft: {
+            customerName: draft.customerName,
+            phone: draft.phone,
+            city: draft.city,
+            comment: draft.comment,
+            subtotalUah: draft.subtotalUah,
+            totalUah: draft.totalUah,
+            lines: draft.lines.map((l) => ({
+              productId: l.productId,
+              name: l.name,
+              priceUah: l.priceUah,
+              qty: l.qty,
+            })),
+          },
         }),
       })
       const data = (await res.json().catch(() => ({}))) as {

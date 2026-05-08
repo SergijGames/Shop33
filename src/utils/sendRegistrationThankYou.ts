@@ -123,7 +123,12 @@ export async function sendOrderConfirmationEmail(order: SavedOrder): Promise<Reg
     .map((l) => `${l.name} × ${l.qty} — ${l.priceUah * l.qty} грн`)
     .join('\n')
 
-  const paymentLabel = order.paymentMethod === 'stripe' ? 'Оплата карткою (Stripe)' : 'Демо-оформлення без карти'
+  const paymentLabel =
+    order.paymentMethod === 'stripe'
+      ? 'Оплата карткою (Stripe)'
+      : order.paymentMethod === 'liqpay'
+        ? 'Оплата через LiqPay'
+        : 'Оформлення без онлайн-оплати карткою'
 
   const toEmail = order.customerEmail?.trim() || 'hello@shop31.ua'
 

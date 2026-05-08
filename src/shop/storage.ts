@@ -1,5 +1,5 @@
 /**
- * Shop31 — збереження кошика та обраного в localStorage (демо без бекенду).
+ * Shop31 — збереження кошика та обраного в localStorage.
  * Зв’язки: ShopContext.tsx, CartPage, FavoritesPage, ProductGrid
  */
 const FAV_KEY = 'shop31_favorites_v1'

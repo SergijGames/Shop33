@@ -1,11 +1,11 @@
 /**
- * Shop31 — демо-облікові дані адміністратора (email/пароль для входу в /admin).
+ * Shop31 — застарілі константи для локальної розробки (не використовуйте як прод-модель входу).
  * Зв’язки: AdminLoginPage, AuthContext, змінні VITE_ADMIN_* у .env
  */
 import { parseMailbox } from '../utils/email'
 
 /**
- * Демо-доступ до панелі адміністратора (без бекенду).
+ * Адмін-доступ у продакшені налаштовується через `server/.env` (seed admin) та роль `admin` у базі.
  * Зміни пошту/пароль тут або через .env: VITE_ADMIN_EMAIL, VITE_ADMIN_PASSWORD.
  */
 const envEmail = import.meta.env.VITE_ADMIN_EMAIL as string | undefined

@@ -1,5 +1,5 @@
 /**
- * Shop31 — історія замовлень у localStorage (демо).
+ * Shop31 — історія замовлень у localStorage (клієнтська копія).
  * Зв’язки: CheckoutPage, OrderThanksPage, UserOrdersPage, useBonusBalance
  */
 const ORDERS_KEY = 'shop31_orders_v1'
@@ -29,8 +29,8 @@ export type SavedOrder = {
   customerEmail?: string
   /** Сума до сплати після бонусів. */
   totalUah: number
-  /** Як оформлено оплату (демо без карти / Stripe). */
-  paymentMethod?: 'demo' | 'stripe' | 'liqpay'
+  /** Як оформлено оплату (без онлайн-карти / Stripe / LiqPay). */
+  paymentMethod?: 'manual' | 'stripe' | 'liqpay'
   /** Ідентифікатор сесії Stripe Checkout (якщо є). */
   stripeSessionId?: string
   /** Ідентифікатор PaymentIntent при оплаті на сайті (Stripe Elements). */

@@ -37,6 +37,8 @@ export function RegisterPage() {
   const [password2, setPassword2] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const [showPass, setShowPass] = useState(false)
+  const [showPass2, setShowPass2] = useState(false)
 
   if (user && user.role !== 'admin' && !submitting) {
     return <Navigate to="/" replace />
@@ -105,31 +107,51 @@ export function RegisterPage() {
 
           <label className="auth-field">
             <span className="auth-field__label">{t('reg.password')}</span>
-            <input
-              className="auth-field__input"
-              type="password"
-              name="password"
-              autoComplete="new-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={8}
-            />
+            <div className="auth-field__input-wrap">
+              <input
+                className="auth-field__input auth-field__input--with-toggle"
+                type={showPass ? 'text' : 'password'}
+                name="password"
+                autoComplete="new-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
+              />
+              <button
+                type="button"
+                className="auth-field__toggle"
+                onClick={() => setShowPass((v) => !v)}
+                aria-label={showPass ? 'Сховати пароль' : 'Показати пароль'}
+              >
+                {showPass ? '🙈' : '👁'}
+              </button>
+            </div>
             <span className="auth-field__hint">{t('reg.passwordHint')}</span>
           </label>
 
           <label className="auth-field">
             <span className="auth-field__label">{t('reg.password2')}</span>
-            <input
-              className="auth-field__input"
-              type="password"
-              name="password2"
-              autoComplete="new-password"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-              required
-              minLength={8}
-            />
+            <div className="auth-field__input-wrap">
+              <input
+                className="auth-field__input auth-field__input--with-toggle"
+                type={showPass2 ? 'text' : 'password'}
+                name="password2"
+                autoComplete="new-password"
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
+                required
+                minLength={8}
+              />
+              <button
+                type="button"
+                className="auth-field__toggle"
+                onClick={() => setShowPass2((v) => !v)}
+                aria-label={showPass2 ? 'Сховати пароль' : 'Показати пароль'}
+              >
+                {showPass2 ? '🙈' : '👁'}
+              </button>
+            </div>
           </label>
 
           <button type="submit" className="auth-form__submit" disabled={submitting}>

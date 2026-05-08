@@ -2623,6 +2623,40 @@
   gap: 6px;
 }
 
+.auth-field__input-wrap {
+  position: relative;
+}
+
+.auth-field__toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  height: 34px;
+  min-width: 40px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 5, 8, 0.35);
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-field__toggle:hover {
+  filter: brightness(1.08);
+}
+
+.auth-field__toggle:focus-visible {
+  outline: none;
+  border-color: rgba(0, 240, 255, 0.55);
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.12);
+}
+
+.auth-field__input--with-toggle {
+  padding-right: 58px;
+}
+
 .auth-field__label {
   font-size: 13px;
   font-weight: 500;
@@ -2732,17 +2766,6 @@
   color: var(--neon-magenta);
   border: 1px solid rgba(255, 0, 200, 0.45);
   background: rgba(255, 0, 200, 0.1);
-}
-
-.admin-login__demo {
-  margin: 0 0 20px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text-muted);
-  background: rgba(255, 0, 200, 0.06);
-  border: 1px dashed rgba(255, 0, 200, 0.35);
 }
 
 .auth-form__submit--magenta {

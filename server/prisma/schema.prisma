@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  user
+}
+
+enum PaymentMethod {
+  manual
+  stripe
+  liqpay
+}
+
+enum OrderStatus {
+  draft
+  pending_payment
+  paid
+  cancelled
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(user)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orders Order[]
+
+  @@index([role])
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  labelUk   String
+  labelEn   String
+  sort      Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sort])
+}
+
+model Product {
+  /** ID товару = slug у фронті (наприклад iphone-17-pro-256...). */
+  id        String   @id
+  /** Повний об'єкт товару як JSON (структура як у src/data/products.ts). */
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id                 String        @id
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  userId             String?
+  customerEmail      String?
+  customerName       String
+  phone              String
+  city               String
+  comment            String        @default("")
+  subtotalUah        Int?
+  bonusRedeemedUah   Int?
+  bonusEarnedUah     Int?
+  totalUah           Int
+  paymentMethod      PaymentMethod @default(manual)
+  status             OrderStatus   @default(draft)
+
+  stripeSessionId       String?
+  stripePaymentIntentId String?
+  liqpayPaymentId       String?
+
+  user  User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  lines OrderLine[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([stripePaymentIntentId])
+  @@index([stripeSessionId])
+}
+
+model OrderLine {
+  id        String   @id @default(cuid())
+  orderId   String
+  productId String?
+  name      String
+  priceUah  Int
+  qty       Int
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([productId])
+}

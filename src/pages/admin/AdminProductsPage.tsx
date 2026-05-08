@@ -4,6 +4,9 @@
  */
 import { useCallback, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import { apiFetch } from '../../api/client'
+import { getShopProducts } from '../../data/catalog'
 import type { CatalogPrefs, CatalogOverrides } from '../../data/catalog'
 import {
   applyCatalogItemPrefs,
@@ -207,6 +210,7 @@ function patchOverrides(
 }
 
 export function AdminProductsPage() {
+  const { token } = useAuth()
   const [prefs, setPrefs] = useState<CatalogPrefs>(() => loadCatalogPrefs())
   const [customList, setCustomList] = useState(() => loadCustomProducts())
   const [codeEdits, setCodeEdits] = useState(() => loadCodeProductEdits())
@@ -215,6 +219,29 @@ export function AdminProductsPage() {
   const [editingCodeId, setEditingCodeId] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
   const [discountPctDraft, setDiscountPctDraft] = useState<Record<string, string>>({})
+
+  const [publishBusy, setPublishBusy] = useState(false)
+  const [publishMsg, setPublishMsg] = useState<string | null>(null)
+
+  async function handlePublishToServer() {
+    setPublishMsg(null)
+    if (!token) {
+      setPublishMsg('Немає токена входу. Увійдіть як адмін.')
+      return
+    }
+    setPublishBusy(true)
+    const productsToPublish = getShopProducts()
+    const r = await apiFetch<{ ok: true; count: number }>(
+      '/api/admin/products/bulk-upsert',
+      { method: 'POST', body: JSON.stringify({ products: productsToPublish }), token },
+    )
+    setPublishBusy(false)
+    if (!r.ok) {
+      setPublishMsg(`Помилка публікації: ${r.error.message}`)
+      return
+    }
+    setPublishMsg(`Опубліковано в базу: ${r.data.count} товарів.`)
+  }
 
   const refreshCustom = useCallback(() => {
     setCustomList(loadCustomProducts())
@@ -412,6 +439,19 @@ export function AdminProductsPage() {
           характеристики) — копії зберігаються в localStorage. У таблиці — швидка зміна назви та цін;
           колонка «Знижка %» виставляє акційну ціну й перекреслену стару автоматично.
         </p>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 12 }}>
+          <button
+            type="button"
+            className="admin-app__logout"
+            onClick={() => void handlePublishToServer()}
+            disabled={publishBusy}
+          >
+            {publishBusy ? 'Публікація…' : 'Опублікувати товари на сервер'}
+          </button>
+          {publishMsg ? (
+            <span style={{ opacity: 0.9 }}>{publishMsg}</span>
+          ) : null}
+        </div>
       </header>
 
       <section className="admin-glass admin-product-form">

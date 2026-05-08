@@ -8,6 +8,7 @@ import { loadCustomProducts } from '../shop/adminCustomProductsStorage'
 import { extraReviewsForProduct } from '../shop/productReviewsStorage'
 import type { Product } from './products'
 import { products } from './products'
+import { getRuntimeProducts } from './runtimeCatalog'
 
 const CATALOG_PREFS_KEY = 'shop31_admin_catalog_v1'
 
@@ -87,6 +88,8 @@ function withExtraReviews(p: Product): Product {
 
 /** Товари для вітрини (каталог, пошук, головна) — з урахуванням налаштувань адміна. */
 export function getShopProducts(): Product[] {
+  const runtime = getRuntimeProducts()
+  if (runtime) return runtime
   const { hiddenIds, overrides } = loadCatalogPrefs()
   const hidden = new Set(hiddenIds)
   const custom = loadCustomProducts()
@@ -104,6 +107,8 @@ export function getShopProducts(): Product[] {
 
 /** Картка товару на вітрині; якщо приховано — undefined. */
 export function getShopProductById(id: string): Product | undefined {
+  const runtime = getRuntimeProducts()
+  if (runtime) return runtime.find((p) => p.id === id)
   const { hiddenIds, overrides } = loadCatalogPrefs()
   if (hiddenIds.includes(id)) return undefined
   const base = resolveShopProductBase(id)

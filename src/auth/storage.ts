@@ -1,23 +1,24 @@
 /**
- * Shop31 — збереження зареєстрованих користувачів і поточної сесії (localStorage, демо).
+ * Shop31 — збереження локального списку користувачів і поточної сесії (localStorage, режим сумісності).
  * Зв’язки: AuthContext.tsx, LoginPage, RegisterPage
  */
 export type StoredUser = {
   email: string
   name: string
-  /** Демо: пароль у відкритому вигляді лише в браузері, не для продакшену. */
+  /** Лише для локального режиму сумісності (не використовуйте як модель безпеки). */
   password: string
 }
 
 export type UserSession = {
   email: string
   name: string
-  role?: 'admin'
+  role?: 'admin' | 'user'
 }
 
 /** v4: усі старі списки користувачів видаляються при старті (залишається лише вхід адміна). */
 const USERS_KEY = 'shop31_auth_users_v4'
 const SESSION_KEY = 'shop31_auth_session_v1'
+const TOKEN_KEY = 'shop31_auth_token_v1'
 
 const LEGACY_USER_KEYS = [
   'shop31_auth_users_v1',
@@ -83,4 +84,23 @@ export function readSession(): UserSession | null {
 export function writeSession(session: UserSession | null): void {
   if (!session) localStorage.removeItem(SESSION_KEY)
   else localStorage.setItem(SESSION_KEY, JSON.stringify(session))
+}
+
+export function readAuthToken(): string {
+  try {
+    const raw = localStorage.getItem(TOKEN_KEY)
+    return typeof raw === 'string' ? raw : ''
+  } catch {
+    return ''
+  }
+}
+
+export function writeAuthToken(token: string): void {
+  try {
+    const t = token.trim()
+    if (!t) localStorage.removeItem(TOKEN_KEY)
+    else localStorage.setItem(TOKEN_KEY, t)
+  } catch {
+    /* ignore */
+  }
 }

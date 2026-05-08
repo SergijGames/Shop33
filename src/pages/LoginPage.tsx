@@ -1,5 +1,5 @@
 /**
- * Shop31 — вхід користувача (email/пароль, демо в localStorage).
+ * Shop31 — вхід користувача (email/пароль через API).
  * Зв’язки: AuthContext, auth/storage, i18n
  */
 import { useState, type FormEvent } from 'react'
@@ -18,6 +18,8 @@ export function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [showPass, setShowPass] = useState(false)
 
   if (user?.role === 'admin') {
     return <Navigate to="/admin" replace />
@@ -26,10 +28,12 @@ export function LoginPage() {
     return <Navigate to="/" replace />
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
-    const result = login(email, password)
+    setBusy(true)
+    const result = await login(email, password)
+    setBusy(false)
     if (!result.ok) {
       setError(result.message)
       return
@@ -47,7 +51,7 @@ export function LoginPage() {
         <h1 className="auth-card__title">{t('login.title')}</h1>
         <p className="auth-card__lead">{t('login.lead')}</p>
 
-        <form className="auth-form" onSubmit={handleSubmit} noValidate>
+        <form className="auth-form" onSubmit={(e) => void handleSubmit(e)} noValidate>
           {error ? (
             <p className="auth-form__error" role="alert">
               {error}
@@ -70,19 +74,29 @@ export function LoginPage() {
 
           <label className="auth-field">
             <span className="auth-field__label">{t('login.password')}</span>
-            <input
-              className="auth-field__input"
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={1}
-            />
+            <div className="auth-field__input-wrap">
+              <input
+                className="auth-field__input auth-field__input--with-toggle"
+                type={showPass ? 'text' : 'password'}
+                name="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={1}
+              />
+              <button
+                type="button"
+                className="auth-field__toggle"
+                onClick={() => setShowPass((v) => !v)}
+                aria-label={showPass ? 'Сховати пароль' : 'Показати пароль'}
+              >
+                {showPass ? '🙈' : '👁'}
+              </button>
+            </div>
           </label>
 
-          <button type="submit" className="auth-form__submit">
+          <button type="submit" className="auth-form__submit" disabled={busy}>
             {t('login.submit')}
           </button>
         </form>

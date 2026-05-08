@@ -1,7 +1,7 @@
 /**
  * Shop31 — контекст автентифікації (користувач, вхід/вихід, реєстрація).
- * Стан у localStorage через auth/storage; використовується в Layout, сторінках акаунта.
- * Зв’язки: auth/storage.ts, LoginPage, RegisterPage, App.tsx
+ * Реальний режим: бекенд /api/auth/* + JWT у localStorage.
+ * Зв’язки: auth/storage.ts (сесія+токен), pages Login/Register/AdminLogin
  */
 import {
   createContext,
@@ -15,22 +15,18 @@ import type { ReactNode } from 'react'
 import {
   clearLegacyUserStores,
   readSession,
-  readUsers,
+  readAuthToken,
   writeSession,
-  writeUsers,
+  writeAuthToken,
   type UserSession,
 } from '../auth/storage'
-import {
-  ADMIN_DISPLAY_NAME,
-  ADMIN_EMAIL,
-  isAdminCredentials,
-} from '../config/adminDemo'
 import { parseMailbox } from '../utils/email'
 import { openRegistrationMailtoFallback } from '../utils/customerEmailFlow'
 import {
   sendRegistrationThankYou,
   type RegistrationThankYouResult,
 } from '../utils/sendRegistrationThankYou'
+import { apiFetch } from '../api/client'
 
 export type LoginResult =
   | { ok: true; role: 'admin' | 'user' }
@@ -40,7 +36,8 @@ export type RegisterThankYouEmail = RegistrationThankYouResult
 
 type AuthContextValue = {
   user: UserSession | null
-  login: (email: string, password: string) => LoginResult
+  token: string
+  login: (email: string, password: string) => Promise<LoginResult>
   register: (
     name: string,
     email: string,
@@ -54,6 +51,7 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | null>(null)
 
 let sessionSnapshot: UserSession | null = readSession()
+let tokenSnapshot: string = readAuthToken()
 const listeners = new Set<() => void>()
 
 function emit() {
@@ -66,41 +64,55 @@ function setSessionAndNotify(next: UserSession | null) {
   emit()
 }
 
+function setTokenAndNotify(next: string) {
+  tokenSnapshot = next
+  writeAuthToken(next)
+  emit()
+}
+
 function subscribe(cb: () => void) {
   listeners.add(cb)
   return () => listeners.delete(cb)
 }
 
-function getSnapshot() {
+function getSessionSnapshot() {
   return sessionSnapshot
 }
 
-function getServerSnapshot() {
+function getTokenSnapshot() {
+  return tokenSnapshot
+}
+
+function getServerSessionSnapshot() {
   return null
 }
 
+function getServerTokenSnapshot() {
+  return ''
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const user = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  const user = useSyncExternalStore(
+    subscribe,
+    getSessionSnapshot,
+    getServerSessionSnapshot,
+  )
+  const token = useSyncExternalStore(
+    subscribe,
+    getTokenSnapshot,
+    getServerTokenSnapshot,
+  )
 
   useEffect(() => {
     clearLegacyUserStores()
-    const s = readSession()
-    let next: UserSession | null = s
-    if (s && s.role !== 'admin') {
-      const users = readUsers()
-      if (!users.some((u) => u.email === s.email)) {
-        next = null
-        writeSession(null)
-      }
-    }
-    if (next !== sessionSnapshot) {
-      sessionSnapshot = next
-      emit()
-    }
+    sessionSnapshot = readSession()
+    tokenSnapshot = readAuthToken()
+    emit()
 
     const onStorage = (e: StorageEvent) => {
       if (e.key?.startsWith('shop31_auth')) {
         sessionSnapshot = readSession()
+        tokenSnapshot = readAuthToken()
         emit()
       }
     }
@@ -108,28 +120,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('storage', onStorage)
   }, [])
 
-  const login = useCallback((email: string, password: string): LoginResult => {
+  // Якщо токен є — спробувати підтягнути профіль.
+  useEffect(() => {
+    if (!token) return
+    if (user) return
+    void (async () => {
+      const r = await apiFetch<{ ok: true; user: UserSession }>('/api/auth/me', { token })
+      if (!r.ok) {
+        setTokenAndNotify('')
+        setSessionAndNotify(null)
+        return
+      }
+      setSessionAndNotify(r.data.user)
+    })()
+  }, [token, user])
+
+  const login = useCallback(async (email: string, password: string): Promise<LoginResult> => {
     const parsed = parseMailbox(email)
     if (!parsed.ok) {
       return { ok: false, message: parsed.message }
     }
-    if (isAdminCredentials(email, password)) {
-      setSessionAndNotify({
-        email: ADMIN_EMAIL,
-        name: ADMIN_DISPLAY_NAME,
-        role: 'admin',
-      })
-      return { ok: true, role: 'admin' }
-    }
-    const users = readUsers()
-    const found =
-      users.find((u) => u.email === parsed.email) ??
-      users.find((u) => u.email === email.trim().toLowerCase())
-    if (!found || found.password !== password) {
-      return { ok: false, message: 'Невірна пошта або пароль.' }
-    }
-    setSessionAndNotify({ email: found.email, name: found.name })
-    return { ok: true, role: 'user' }
+    const r = await apiFetch<{ ok: true; token: string | null; user: UserSession }>(
+      '/api/auth/login',
+      { method: 'POST', body: JSON.stringify({ email: parsed.email, password }) },
+    )
+    if (!r.ok) return { ok: false, message: r.error.message }
+    setTokenAndNotify(r.data.token ?? '')
+    setSessionAndNotify(r.data.user)
+    return { ok: true, role: r.data.user.role === 'admin' ? 'admin' : 'user' }
   }, [])
 
   const register = useCallback(async (name: string, email: string, password: string) => {
@@ -144,38 +162,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (password.length < 8) {
       return { ok: false as const, message: 'Пароль має бути не коротший за 8 символів.' }
     }
-    if (parsed.email === ADMIN_EMAIL) {
-      return { ok: false as const, message: 'Ця пошта зарезервована для облікового запису адміністратора.' }
-    }
-    const users = readUsers()
-    if (
-      users.some(
-        (u) => u.email === parsed.email || u.email === email.trim().toLowerCase(),
-      )
-    ) {
-      return { ok: false as const, message: 'Користувач з такою поштою вже зареєстрований.' }
-    }
-    const next = [...users, { email: parsed.email, name: trimmedName, password }]
-    writeUsers(next)
     const wasAdmin = readSession()?.role === 'admin'
+    const r = await apiFetch<{ ok: true; token: string | null; user: UserSession }>(
+      '/api/auth/register',
+      { method: 'POST', body: JSON.stringify({ name: trimmedName, email: parsed.email, password }) },
+    )
+    if (!r.ok) return { ok: false as const, message: r.error.message }
+
     const thankYouEmail = await sendRegistrationThankYou({
       email: parsed.email,
       name: trimmedName,
     })
     openRegistrationMailtoFallback(trimmedName, parsed.email, thankYouEmail)
     if (!wasAdmin) {
-      setSessionAndNotify({ email: parsed.email, name: trimmedName })
+      setTokenAndNotify(r.data.token ?? '')
+      setSessionAndNotify(r.data.user)
     }
     return { ok: true as const, thankYouEmail }
   }, [])
 
   const logout = useCallback(() => {
+    setTokenAndNotify('')
     setSessionAndNotify(null)
   }, [])
 
   const value = useMemo(
-    () => ({ user, login, register, logout }),
-    [user, login, register, logout],
+    () => ({ user, token, login, register, logout }),
+    [user, token, login, register, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

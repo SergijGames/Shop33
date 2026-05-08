@@ -358,7 +358,7 @@ export const products: Product[] = [
       'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80',
     ],
     videos: [
-      { title: 'Демо звуку та підсвічування', youtubeId: 'M7lc1UVf-VE' },
+      { title: 'Звук та підсвічування (приклад)', youtubeId: 'M7lc1UVf-VE' },
     ],
     specsTable: [
       { label: 'Потужність', value: '350 Вт (муз.)' },

@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: shop31
+      POSTGRES_PASSWORD: shop31
+      POSTGRES_DB: shop31
+    ports:
+      - "5432:5432"
+    volumes:
+      - shop31_pg_data:/var/lib/postgresql/data
+
+volumes:
+  shop31_pg_data:
+

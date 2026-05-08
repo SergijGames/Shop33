@@ -17,7 +17,12 @@ export function formatOrderSummaryUk(order: SavedOrder): string {
   const lines = order.lines
     .map((l) => `${l.name} × ${l.qty} — ${l.priceUah * l.qty} грн`)
     .join('\n')
-  const pay = order.paymentMethod === 'stripe' ? 'Картка (Stripe)' : 'Демо-оформлення'
+  const pay =
+    order.paymentMethod === 'stripe'
+      ? 'Картка (Stripe)'
+      : order.paymentMethod === 'liqpay'
+        ? 'LiqPay'
+        : 'Оформлення без онлайн-оплати'
   return [
     `Замовлення: ${order.id}`,
     `Дата: ${order.createdAt}`,

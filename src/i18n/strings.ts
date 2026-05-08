@@ -128,12 +128,12 @@ export const STR = {
   'checkout.title': { uk: 'Оформлення замовлення', en: 'Checkout' },
   'checkout.crumbCheckout': { uk: 'Оформлення', en: 'Checkout' },
   'checkout.lead': {
-    uk: 'Демо: замовлення та бонуси зберігаються лише в браузері. 1 бонусний бал = 1 грн знижки; після оплати нараховується ~2% бонусами від суми до сплати.',
-    en: 'Demo: orders and bonuses are stored only in your browser. 1 bonus point = 1 UAH off; after payment ~2% bonus is earned on the amount paid.',
+    uk: 'Замовлення та бонуси в цьому профілі зберігаються локально в браузері (до повного підключення серверної історії). 1 бонусний бал = 1 грн знижки; після оплати нараховується ~2% бонусами від суми до сплати.',
+    en: 'Orders and bonuses for this profile are stored locally in your browser (until full server-side history is enabled). 1 bonus point = 1 UAH off; after payment ~2% bonus is earned on the amount paid.',
   },
   'checkout.leadStripe': {
-    uk: 'Оплата карткою на цій сторінці — Stripe Elements. Потрібні npm run dev + npm run dev:payment, STRIPE_SECRET_KEY у server/.env та VITE_STRIPE_PUBLISHABLE_KEY у кореневому .env.',
-    en: 'Card payment on this page — Stripe Elements. You need npm run dev + npm run dev:payment, STRIPE_SECRET_KEY in server/.env and VITE_STRIPE_PUBLISHABLE_KEY in the root .env.',
+    uk: 'Оплата карткою на цій сторінці — Stripe Elements. Для локального запуску: `npm run dev:all`, `STRIPE_SECRET_KEY` у `server/.env` та `VITE_STRIPE_PUBLISHABLE_KEY` у кореневому `.env`.',
+    en: 'Card payment on this page — Stripe Elements. For local dev run `npm run dev:all`, set STRIPE_SECRET_KEY in server/.env and VITE_STRIPE_PUBLISHABLE_KEY in the root .env.',
   },
   'checkout.bonusTitle': { uk: 'Бонусний рахунок', en: 'Bonus balance' },
   'checkout.bonusAvail': { uk: 'Доступно:', en: 'Available:' },
@@ -191,8 +191,8 @@ export const STR = {
     en: 'Amount due is 0 UAH — use “Confirm order” instead.',
   },
   'checkout.errStripe': {
-    uk: 'Помилка {{status}}. Запустіть сервер оплати (npm run dev:payment) і перевірте ключі Stripe.',
-    en: 'Error {{status}}. Run the payment server (npm run dev:payment) and check Stripe keys.',
+    uk: 'Помилка {{status}}. Запустіть API (`npm run dev:all` або `cd server && npm run dev`) і перевірте ключі Stripe.',
+    en: 'Error {{status}}. Start the API (`npm run dev:all` or `cd server && npm run dev`) and verify Stripe keys.',
   },
   'checkout.errNet': {
     uk: 'Не вдалося з’єднатися з сервером оплати.',
@@ -220,16 +220,16 @@ export const STR = {
     en: 'Card payment confirmed. We will contact you at',
   },
   'thanks.stripeAfter': {
-    uk: '. Дані замовлення збережено лише у вашому браузері (демо).',
-    en: '. Order data is stored only in your browser (demo).',
+    uk: '. Дані замовлення також збережено локально у вашому браузері (історія профілю).',
+    en: '. Order details are also saved locally in your browser (profile history).',
   },
-  'thanks.demoBefore': {
+  'thanks.contactBefore': {
     uk: 'Ми зв’яжемося з вами за номером',
     en: 'We will contact you at',
   },
-  'thanks.demoAfter': {
-    uk: ' для уточнення деталей (у демо-режимі дані лише у вашому браузері).',
-    en: ' for details (demo: data stays in your browser only).',
+  'thanks.contactAfter': {
+    uk: ' для уточнення деталей. Копія замовлення також збережена локально у вашому браузері.',
+    en: ' for details. A copy of the order is also saved locally in your browser.',
   },
   'thanks.noId': {
     uk: 'Замовлення прийнято. Якщо ви не бачите номера — відкрийте сторінку з посилання після оформлення ще раз.',
@@ -343,8 +343,8 @@ export const STR = {
   },
   'account.bonusAdminTitle': { uk: 'Редагування балів', en: 'Edit points' },
   'account.bonusAdminHint': {
-    uk: 'Баланс поточного акаунту (адміна). Щоб змінити бонуси покупців, відкрийте розділ «Користувачі» в адмін-панелі. Демо, лише в цьому браузері.',
-    en: 'Current account (admin) balance. To change customer bonuses, open Users in the admin panel. Demo, this browser only.',
+    uk: 'Баланс поточного акаунту (адміна). Щоб змінити бонуси покупців, відкрийте розділ «Користувачі» в адмін-панелі. Значення зберігаються локально в цьому браузері.',
+    en: 'Current account (admin) balance. To change customer bonuses, open Users in the admin panel. Values are stored locally in this browser.',
   },
   'account.bonusPh': { uk: 'Балів на рахунку', en: 'Points on account' },
   'account.save': { uk: 'Зберегти', en: 'Save' },
@@ -364,17 +364,17 @@ export const STR = {
   'account.adminPanel': { uk: 'Панель адміністратора', en: 'Admin dashboard' },
   'account.details': { uk: 'Відомості', en: 'Details' },
   'account.emailLbl': { uk: 'Пошта', en: 'Email' },
-  'account.demoNote': {
-    uk: 'Демо-профіль: дані лише в цьому браузері.',
-    en: 'Demo profile: data only in this browser.',
+  'account.profileLocalNote': {
+    uk: 'Профіль: частина даних зберігається локально в цьому браузері.',
+    en: 'Profile: some data is stored locally in this browser.',
   },
   'account.logoutFull': { uk: 'Вийти з акаунту', en: 'Log out' },
 
   'orders.back': { uk: '‹ Профіль', en: '‹ Profile' },
   'orders.title': { uk: 'Мої замовлення', en: 'My orders' },
   'orders.lead': {
-    uk: 'Збережені в цьому браузері (демо). Деталі замовлення — у підсумку після оформлення.',
-    en: 'Stored in this browser (demo). Order details are in the summary after checkout.',
+    uk: 'Збережені локально в цьому браузері. Деталі замовлення — у підсумку після оформлення.',
+    en: 'Stored locally in this browser. Order details are in the summary after checkout.',
   },
   'orders.empty': {
     uk: 'Ще немає замовлень. Перейдіть у кошик і оформіть покупку.',
@@ -412,8 +412,8 @@ export const STR = {
   'product.specsTitle': { uk: 'Характеристики', en: 'Specifications' },
   'product.revTitle': { uk: 'Відгуки покупців', en: 'Customer reviews' },
   'product.revEmpty': {
-    uk: 'Поки немає відгуків. Можете залишити перший — він збережеться в цьому браузері (демо без сервера).',
-    en: 'No reviews yet. You can leave the first — it is saved in this browser (demo, no server).',
+    uk: 'Поки немає відгуків. Можете залишити перший — він збережеться локально в цьому браузері.',
+    en: 'No reviews yet. You can leave the first — it is saved locally in this browser.',
   },
   'product.revFormTitle': { uk: 'Залишити відгук', en: 'Write a review' },
   'product.revName': { uk: 'Ім’я або нік', en: 'Name or nickname' },
@@ -444,8 +444,8 @@ export const STR = {
 
   'bonus.confirmTitle': { uk: 'Погоджуєтесь списати {{spend}} бонусних балів?', en: 'Redeem {{spend}} bonus points?' },
   'bonus.confirmBody': {
-    uk: 'Сума замовлення зменшиться на {{spendUah}} грн.\nДо сплати: {{paid}} грн.\nЗалишок бонусів після списання: {{left}} б.\n\nБонуси знімуться після успішної оплати карткою або одразу при демо-оформленні.\nПісля замовлення нарахуємо близько {{earn}} б. (2% від сплаченої суми).',
-    en: 'Order total drops by {{spendUah}} UAH.\nAmount due: {{paid}} UAH.\nBonus balance after redeem: {{left}} pts.\n\nPoints are taken after successful card payment or immediately on demo checkout.\nAfter the order you will earn about {{earn}} pts (2% of amount paid).',
+    uk: 'Сума замовлення зменшиться на {{spendUah}} грн.\nДо сплати: {{paid}} грн.\nЗалишок бонусів після списання: {{left}} б.\n\nБонуси знімуться після успішної оплати карткою або одразу при оформленні без онлайн-оплати.\nПісля замовлення нарахуємо близько {{earn}} б. (2% від сплаченої суми).',
+    en: 'Order total drops by {{spendUah}} UAH.\nAmount due: {{paid}} UAH.\nBonus balance after redeem: {{left}} pts.\n\nPoints are taken after successful card payment or immediately on checkout without online card payment.\nAfter the order you will earn about {{earn}} pts (2% of amount paid).',
   },
 
   'val.name': { uk: 'Вкажіть ім’я (мінімум 2 символи).', en: 'Enter a name (at least 2 characters).' },

@@ -35,6 +35,10 @@ import { AdminCatalogPage } from './pages/admin/AdminCatalogPage'
 import { AdminProductsPage } from './pages/admin/AdminProductsPage'
 import { AdminSearchPage } from './pages/admin/AdminSearchPage'
 import { AdminUsersPage } from './pages/admin/AdminUsersPage'
+import { useEffect } from 'react'
+import { apiFetch } from './api/client'
+import { setRuntimeProducts } from './data/runtimeCatalog'
+import type { Product } from './data/products'
 import './App.css'
 
 const Iphone17Redirect = () => (
@@ -55,6 +59,21 @@ function appRouterBasename(): string | undefined {
 }
 
 function App() {
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      const r = await apiFetch<{ ok: true; products: Product[] }>('/api/catalog/products')
+      if (!r.ok) return
+      if (cancelled) return
+      if (Array.isArray(r.data.products) && r.data.products.length > 0) {
+        setRuntimeProducts(r.data.products)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <Router basename={appRouterBasename()}>
       <I18nProvider>

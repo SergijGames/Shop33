@@ -1,0 +1,29 @@
+services:
+  # Shop31 API (Node/Express)
+  - type: web
+    name: shop31-api
+    runtime: node
+    plan: starter
+    region: frankfurt
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: node index.mjs
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: PORT
+        value: 4242
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shop31-db
+          property: connectionString
+      # Set manually in Render dashboard (do NOT commit secrets):
+      # - JWT_SECRET
+      # - SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD / SEED_ADMIN_NAME
+      # - STRIPE_SECRET_KEY
+      # - LIQPAY_PUBLIC_KEY / LIQPAY_PRIVATE_KEY
+
+databases:
+  - name: shop31-db
+    plan: starter
+    region: frankfurt

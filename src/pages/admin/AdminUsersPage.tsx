@@ -1,10 +1,12 @@
 /**
- * Shop31 — адмін: список зареєстрованих користувачів (демо localStorage).
- * Зв’язки: auth/storage.ts
+ * Shop31 — адмін: список користувачів (сервер) + локальні бонуси (браузер).
+ * Зв’язки: api/client, AuthContext, bonusStorage, auth/storage (fallback)
  */
 import type { FormEvent } from 'react'
-import { useEffect, useState, useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
 import { clearAllUsers, deleteUserByEmail, readUsers } from '../../auth/storage'
+import { useAuth } from '../../context/AuthContext'
+import { apiFetch } from '../../api/client'
 import {
   getBonusBalance,
   getBonusRevision,
@@ -14,8 +16,15 @@ import {
 import { parseMailbox } from '../../utils/email'
 import { formatUahAmount } from '../../utils/formatMoney'
 
+type AdminUserRow = { email: string; name: string; role?: 'admin' | 'user' }
+
 export function AdminUsersPage() {
-  const [users, setUsers] = useState(readUsers)
+  const { token } = useAuth()
+  const [users, setUsers] = useState<AdminUserRow[]>(() =>
+    readUsers().map((u) => ({ email: u.email, name: u.name })),
+  )
+  const [usersSource, setUsersSource] = useState<'api' | 'local'>('local')
+  const [usersLoadErr, setUsersLoadErr] = useState<string | null>(null)
   const bonusRevision = useSyncExternalStore(subscribeBonus, getBonusRevision, () => 0)
   const [balanceDrafts, setBalanceDrafts] = useState<Record<string, string>>({})
   const [rowErr, setRowErr] = useState<Record<string, string | null>>({})
@@ -23,9 +32,39 @@ export function AdminUsersPage() {
   const [otherBalance, setOtherBalance] = useState('')
   const [otherErr, setOtherErr] = useState<string | null>(null)
 
+  const refreshLocal = useCallback(() => {
+    setUsersSource('local')
+    setUsersLoadErr(null)
+    setUsers(readUsers().map((u) => ({ email: u.email, name: u.name })))
+  }, [])
+
+  const refreshFromApi = useCallback(async () => {
+    setUsersLoadErr(null)
+    if (!token) {
+      refreshLocal()
+      return
+    }
+    const r = await apiFetch<{ ok: true; users: { email: string; name: string; role: 'admin' | 'user' }[] }>(
+      '/api/admin/users',
+      { token },
+    )
+    if (!r.ok) {
+      setUsersSource('local')
+      setUsersLoadErr(r.error.message)
+      refreshLocal()
+      return
+    }
+    setUsersSource('api')
+    setUsers(r.data.users.map((u) => ({ email: u.email, name: u.name, role: u.role })))
+  }, [token, refreshLocal])
+
   function refresh() {
-    setUsers(readUsers())
+    void refreshFromApi()
   }
+
+  useEffect(() => {
+    void refreshFromApi()
+  }, [refreshFromApi])
 
   useEffect(() => {
     setBalanceDrafts((prev) => {
@@ -79,11 +118,28 @@ export function AdminUsersPage() {
     if (!window.confirm(`Видалити користувача ${email}? Цю дію не скасувати.`)) {
       return
     }
-    deleteUserByEmail(email)
-    refresh()
+    void (async () => {
+      if (usersSource === 'api' && token) {
+        const r = await apiFetch<{ ok: true }>(`/api/admin/users/${encodeURIComponent(email)}`, {
+          method: 'DELETE',
+          token,
+        })
+        if (!r.ok) {
+          window.alert(r.error.message)
+          return
+        }
+      } else {
+        deleteUserByEmail(email)
+      }
+      refresh()
+    })()
   }
 
   function handleClearAll() {
+    if (usersSource === 'api') {
+      window.alert('Масове видалення користувачів на сервері вимкнено з міркувань безпеки. Видаляйте по одному.')
+      return
+    }
     if (
       !window.confirm(
         'Видалити всіх зареєстрованих покупців з цього браузера? Обліковий запис адміна не в цьому списку.',
@@ -92,19 +148,26 @@ export function AdminUsersPage() {
       return
     }
     clearAllUsers()
-    refresh()
+    refreshLocal()
   }
 
   return (
     <div className="container admin-dashboard" data-bonus-revision={bonusRevision}>
       <h1 className="admin-dashboard__title">Користувачі</h1>
       <p className="admin-dashboard__lead">
-        Список покупців з localStorage на цьому пристрої. Паролі не показуємо. Бонусний баланс можна
-        змінити для кожного покупця (демо, лише в цьому браузері).
+        {usersSource === 'api'
+          ? 'Список користувачів з сервера (без паролів). Бонусний баланс керується локально в браузері — до підключення бонусів у базі.'
+          : 'Список користувачів з локального сховища браузера (режим сумісності, якщо API недоступний). Паролі не показуємо.'}
+        {usersLoadErr ? (
+          <>
+            {' '}
+            <span style={{ opacity: 0.85 }}>(Не вдалося завантажити з API: {usersLoadErr})</span>
+          </>
+        ) : null}
       </p>
 
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '1rem' }}>
-        <button type="button" className="admin-app__logout" onClick={handleClearAll}>
+        <button type="button" className="admin-app__logout" onClick={handleClearAll} disabled={usersSource === 'api'}>
           Очистити всіх
         </button>
       </div>
@@ -118,6 +181,7 @@ export function AdminUsersPage() {
               <tr>
                 <th>Ім’я</th>
                 <th>Пошта</th>
+                {usersSource === 'api' ? <th>Роль</th> : null}
                 <th>Бонуси (б.)</th>
                 <th>Змінити баланс</th>
                 <th style={{ width: '100px' }}>Дії</th>
@@ -131,6 +195,7 @@ export function AdminUsersPage() {
                   <tr key={u.email}>
                     <td>{u.name}</td>
                     <td>{u.email}</td>
+                    {usersSource === 'api' ? <td>{u.role === 'admin' ? 'admin' : 'user'}</td> : null}
                     <td>
                       <strong>{formatUahAmount(live)}</strong>
                     </td>

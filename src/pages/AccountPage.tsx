@@ -227,7 +227,7 @@ export function AccountPage() {
               <span className="account-app__details-k">{t('account.emailLbl')}</span>
               <span className="account-app__details-v">{user.email}</span>
             </p>
-            <p className="account-app__details-note">{t('account.demoNote')}</p>
+            <p className="account-app__details-note">{t('account.profileLocalNote')}</p>
           </div>
 
           <button

@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: перегляд і очищення демо-замовлень (localStorage).
+ * Shop31 — адмін: перегляд і очищення збережених замовлень (localStorage).
  * Зв’язки: ordersStorage
  */
 import { useState } from 'react'

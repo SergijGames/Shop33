@@ -2,16 +2,39 @@
  * Shop31 — головна адмін-панелі: зведена статистика та посилання в розділи.
  * Зв’язки: AdminShell, auth/storage, orders, products, adminCustomProductsStorage
  */
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { readUsers } from '../../auth/storage'
-import { ADMIN_EMAIL } from '../../config/adminDemo'
+import { useAuth } from '../../context/AuthContext'
+import { apiFetch } from '../../api/client'
 import { getShopProducts } from '../../data/catalog'
 import { products } from '../../data/products'
 import { loadCustomProducts } from '../../shop/adminCustomProductsStorage'
 import { readOrders } from '../../shop/ordersStorage'
 
 export function AdminDashboard() {
-  const users = readUsers()
+  const { token } = useAuth()
+  const [buyersCount, setBuyersCount] = useState(() => readUsers().length)
+
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      if (!token) {
+        if (!cancelled) setBuyersCount(readUsers().length)
+        return
+      }
+      const r = await apiFetch<{ ok: true; users: unknown[] }>('/api/admin/users', { token })
+      if (cancelled) return
+      if (!r.ok) {
+        setBuyersCount(readUsers().length)
+        return
+      }
+      setBuyersCount(r.data.users.length)
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [token])
   const orders = readOrders()
   const visible = getShopProducts()
   const custom = loadCustomProducts()
@@ -22,8 +45,8 @@ export function AdminDashboard() {
         <p className="admin-hero__eyebrow">Shop31 · Command</p>
         <h1 className="admin-dashboard__title admin-hero__title">Огляд магазину</h1>
         <p className="admin-dashboard__lead admin-hero__lead">
-          Демо-панель у стилі «місія контролю»: дані з localStorage, без бекенду. Додані вами товари
-          живуть окремо від каталогу в коді.
+          Панель керування: швидкий огляд вітрини, замовлень і користувачів. Товари можна вести через
+          розділ «Товари» та опублікувати в базу для вітрини.
         </p>
       </header>
 
@@ -46,7 +69,7 @@ export function AdminDashboard() {
           <span className="admin-stat__icon" aria-hidden="true">
             ◎
           </span>
-          <span className="admin-stat__value">{users.length}</span>
+          <span className="admin-stat__value">{buyersCount}</span>
           <span className="admin-stat__label">Покупці</span>
         </div>
         <div className="admin-stat admin-stat--violet admin-stat--lift">
@@ -100,8 +123,7 @@ export function AdminDashboard() {
           </li>
         </ul>
         <p className="admin-panel__note admin-panel__note--tight">
-          Паролі покупців у демо не показуємо. Адмін:{' '}
-          <code className="admin-code">{ADMIN_EMAIL}</code>
+          Паролі користувачів не відображаються. Доступ до адмінки — лише для ролі <code className="admin-code">admin</code>.
         </p>
       </section>
 

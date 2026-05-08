@@ -310,8 +310,8 @@ export function OrderThanksPage() {
                   </>
                 ) : (
                   <>
-                    {t('thanks.demoBefore')} <strong>{order.phone}</strong>
-                    {t('thanks.demoAfter')}
+                    {t('thanks.contactBefore')} <strong>{order.phone}</strong>
+                    {t('thanks.contactAfter')}
                   </>
                 )}
               </p>

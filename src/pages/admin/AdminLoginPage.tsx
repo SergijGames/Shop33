@@ -1,10 +1,9 @@
 /**
- * Shop31 — вхід у адмінку за демо email/паролем (config/adminDemo).
+ * Shop31 — вхід у адмін-панель (обліковий запис admin у базі).
  * Зв’язки: AuthContext, ADMIN_* константи
  */
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from '../../config/adminDemo'
 import { useAuth } from '../../context/AuthContext'
 
 export function AdminLoginPage() {
@@ -18,6 +17,8 @@ export function AdminLoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [showPass, setShowPass] = useState(false)
 
   useEffect(() => {
     const reduce =
@@ -30,10 +31,12 @@ export function AdminLoginPage() {
     return <Navigate to="/admin" replace />
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
-    const result = login(email, password)
+    setBusy(true)
+    const result = await login(email, password)
+    setBusy(false)
     if (!result.ok) {
       setError(result.message)
       return
@@ -52,17 +55,9 @@ export function AdminLoginPage() {
         <div className="auth-card container auth-card--admin">
           <p className="auth-card__badge">Адміністратор</p>
           <h1 className="auth-card__title">Вхід у панель</h1>
-          <p className="auth-card__lead">
-            Доступ лише для адміністратора магазину. Демо-логін і пароль показані нижче
-            (змініть у коді або через змінні середовища Vite).
-          </p>
-          <p className="admin-login__demo">
-            <strong>Демо:</strong> {ADMIN_EMAIL}
-            <br />
-            <strong>Пароль:</strong> {ADMIN_PASSWORD}
-          </p>
+          <p className="auth-card__lead">Доступ лише для адміністратора магазину.</p>
 
-          <form className="auth-form" onSubmit={handleSubmit} noValidate>
+          <form className="auth-form" onSubmit={(ev) => void handleSubmit(ev)} noValidate>
             {error ? (
               <p className="auth-form__error" role="alert">
                 {error}
@@ -84,18 +79,32 @@ export function AdminLoginPage() {
 
             <label className="auth-field">
               <span className="auth-field__label">Пароль</span>
-              <input
-                className="auth-field__input"
-                type="password"
-                name="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="auth-field__input-wrap">
+                <input
+                  className="auth-field__input auth-field__input--with-toggle"
+                  type={showPass ? 'text' : 'password'}
+                  name="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className="auth-field__toggle"
+                  onClick={() => setShowPass((v) => !v)}
+                  aria-label={showPass ? 'Сховати пароль' : 'Показати пароль'}
+                >
+                  {showPass ? '🙈' : '👁'}
+                </button>
+              </div>
             </label>
 
-            <button type="submit" className="auth-form__submit auth-form__submit--magenta">
+            <button
+              type="submit"
+              className="auth-form__submit auth-form__submit--magenta"
+              disabled={busy}
+            >
               Увійти як адмін
             </button>
           </form>

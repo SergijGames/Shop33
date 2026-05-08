@@ -1,5 +1,5 @@
 /**
- * Shop31 — список збережених замовлень користувача (демо в localStorage).
+ * Shop31 — список збережених замовлень користувача (localStorage).
  * Зв’язки: AuthContext, ordersStorage, i18n
  */
 import { Link, Navigate } from 'react-router-dom'
