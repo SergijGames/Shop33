@@ -1,4 +1,5 @@
-## Shop31 — “$3500-ready” go-live checklist
+## Shop31
+go-live checklist
 
 Ціль: мати **живе демо** (вітрина + адмінка), з бекендом, БД, і підключеними оплатами (Stripe + LiqPay).
 
