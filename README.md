@@ -60,4 +60,16 @@ API: `http://127.0.0.1:4242/api/health`
 - **Frontend**: будь‑який static host (Vercel/Netlify/Cloudflare Pages/GitHub Pages)
 - **Backend + Postgres**: Render/Fly/Railway/VPS
 
-Докладно: `docs/СТРУКТУРА-ПРОЄКТУ.md`
+Докладно: `docs/СТРУКТУРА-ПРОЄКТУ.md` та `docs/SALE-DEPLOY.md`
+
+### GitHub Pages (frontend)
+
+1. Закоміть і запуште код у гілку `main` (або `master`) — у репозиторії вже є workflow `.github/workflows/deploy-github-pages.yml`.
+2. На GitHub: **Settings → Pages → Build and deployment → Source** виберіть **GitHub Actions** (не “Deploy from a branch”).
+3. **Settings → Actions → General → Workflow permissions** — увімкніть **Read and write** (і дозвіл на створення env для Pages, якщо GitHub запропонує).
+4. У **Settings → Secrets and variables → Actions** додайте секрети (якщо потрібен робочий магазин з API):
+   - `VITE_API_BASE_URL` — повний URL вашого API (наприклад `https://your-api.onrender.com`)
+   - за потреби: `VITE_STRIPE_PUBLISHABLE_KEY`, `VITE_LIQPAY_ENABLED`
+5. Після успішного workflow сайт буде за адресою: `https://<ваш-нік>.github.io/<назва-репозиторію>/`
+
+**Важливо:** GitHub Pages хостить лише **статичний frontend**. База, логіни, Stripe/LiqPay — це ваш **окремий сервер** (наприклад Render), який ви вказуєте в `VITE_API_BASE_URL`.

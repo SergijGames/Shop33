@@ -51,11 +51,20 @@ const Router =
     ? HashRouter
     : BrowserRouter
 
-/** Для GitHub Pages (`vite build --base=/repo/`): підшлях у React Router. */
+/**
+ * Підшлях для React Router (GitHub Pages: /RepoName/...).
+ * Якщо збірка з `base: './'`, import.meta.env.BASE_URL не містить репо — беремо перший сегмент шляху на github.io.
+ */
 function appRouterBasename(): string | undefined {
   const base = import.meta.env.BASE_URL
-  if (base === '/' || base === './') return undefined
-  return base.endsWith('/') ? base.slice(0, -1) : base
+  if (base !== '/' && base !== './') {
+    return base.endsWith('/') ? base.slice(0, -1) : base
+  }
+  if (typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')) {
+    const parts = window.location.pathname.split('/').filter(Boolean)
+    if (parts.length) return `/${parts[0]}`
+  }
+  return undefined
 }
 
 function App() {
