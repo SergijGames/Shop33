@@ -1,11 +1,16 @@
 # Збірка Shop31 і публікація на GitHub Pages (безкоштовний хостинг статики).
 # Увімкнення: Settings → Pages → Source: GitHub Actions.
 # URL: https://<ваш-нік>.github.io/<назва-репозиторію>/
+#
+# Якщо job «deploy» падає за ~2 с без кроків:
+# 1) Settings → Pages → Build and deployment → Source = «GitHub Actions» (не гілка gh-pages).
+# 2) Settings → Environments → github-pages → Deployment branches: дозволити main (або «All branches»).
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main, master]
+  workflow_dispatch:
 
 permissions:
   contents: read
