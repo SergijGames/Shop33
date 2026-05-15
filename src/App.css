@@ -2782,6 +2782,41 @@
   );
 }
 
+.admin-login-setup {
+  margin: 0 0 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 0, 200, 0.35);
+  background: rgba(255, 0, 200, 0.08);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.admin-login-setup__title {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  color: var(--neon-magenta, #ff00c8);
+}
+
+.admin-login-setup__list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.admin-login-setup__list a {
+  color: var(--neon-cyan, #00f0ff);
+  font-weight: 600;
+}
+
+.admin-login-setup code {
+  font-size: 0.85em;
+}
+
+.admin-login-setup--local {
+  margin-bottom: 1rem;
+}
+
 /* ——— Адмін-панель ——— */
 .admin-app {
   position: relative;

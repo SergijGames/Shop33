@@ -6,8 +6,9 @@ services:
     plan: starter
     region: frankfurt
     rootDir: server
-    buildCommand: npm ci
+    buildCommand: npm ci && npx prisma generate && npx prisma db push
     startCommand: node index.mjs
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
         value: 22

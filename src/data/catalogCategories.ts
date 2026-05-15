@@ -41,14 +41,14 @@ const mediaById: Record<ShopCategoryId, Media> = {
     description: 'Техніка для кухні та дому',
     glow: 'violet',
     image:
-      'https://images.unsplash.com/photo-1584622650111-993a426c9a0d?auto=format&fit=crop&w=900&q=82',
+      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=82',
     alt: 'Побутова техніка',
   },
   gadzhety: {
     description: 'Планшети, розумні пристрої',
     glow: 'cyan',
     image:
-      'https://images.unsplash.com/photo-1526170375885-4d8edc77b502?auto=format&fit=crop&w=900&q=82',
+      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=82',
     alt: 'Гаджети',
   },
   igry: {
@@ -69,7 +69,7 @@ const mediaById: Record<ShopCategoryId, Media> = {
     description: 'Електроніка та аксесуари для авто',
     glow: 'violet',
     image:
-      'https://images.unsplash.com/photo-1489827905097-e5e453b9a28e?auto=format&fit=crop&w=900&q=82',
+      'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=82',
     alt: 'Автомобіль',
   },
 }

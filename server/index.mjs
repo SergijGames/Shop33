@@ -850,18 +850,25 @@ app.listen(PORT, () => {
   if (prisma && SEED_ADMIN_EMAIL && SEED_ADMIN_PASSWORD) {
     void (async () => {
       try {
-        const exists = await prisma.user.findUnique({ where: { email: SEED_ADMIN_EMAIL } })
-        if (exists) return
         const passwordHash = await bcrypt.hash(SEED_ADMIN_PASSWORD, 12)
-        await prisma.user.create({
-          data: {
-            email: SEED_ADMIN_EMAIL,
-            name: SEED_ADMIN_NAME || 'Administrator',
-            passwordHash,
-            role: 'admin',
-          },
-        })
-        console.log(`[Shop31 api] Seed admin створено: ${SEED_ADMIN_EMAIL}`)
+        const exists = await prisma.user.findUnique({ where: { email: SEED_ADMIN_EMAIL } })
+        if (!exists) {
+          await prisma.user.create({
+            data: {
+              email: SEED_ADMIN_EMAIL,
+              name: SEED_ADMIN_NAME || 'Administrator',
+              passwordHash,
+              role: 'admin',
+            },
+          })
+          console.log(`[Shop31 api] Seed admin створено: ${SEED_ADMIN_EMAIL}`)
+        } else {
+          await prisma.user.update({
+            where: { email: SEED_ADMIN_EMAIL },
+            data: { name: SEED_ADMIN_NAME || 'Administrator', passwordHash, role: 'admin' },
+          })
+          console.log(`[Shop31 api] Seed admin оновлено: ${SEED_ADMIN_EMAIL}`)
+        }
       } catch (e) {
         console.warn('[Shop31 api] Не вдалося створити seed admin:', e instanceof Error ? e.message : String(e))
       }
