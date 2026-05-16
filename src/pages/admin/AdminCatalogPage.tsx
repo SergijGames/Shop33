@@ -8,7 +8,7 @@ import type {
   CategoryUiOverride,
 } from '../../shop/adminCatalogUiStorage'
 import { loadCatalogUiPrefs, saveCatalogUiPrefs } from '../../shop/adminCatalogUiStorage'
-import { shopCategories, type ShopCategoryId } from '../../data/shopCategories'
+import { AdminCatalogCategoriesSection } from './AdminCatalogCategoriesSection'
 import { AdminCatalogQuickProductForm } from './AdminCatalogQuickProductForm'
 import { AdminUserCatalogsSection } from './AdminUserCatalogsSection'
 
@@ -22,37 +22,26 @@ function buildCleanPrefs(d: CatalogUiPrefs): CatalogUiPrefs {
   if (d.allCardLabel?.trim()) out.allCardLabel = d.allCardLabel.trim()
   if (d.allCardDesc?.trim()) out.allCardDesc = d.allCardDesc.trim()
   const cats: NonNullable<CatalogUiPrefs['categories']> = {}
-  for (const c of shopCategories) {
-    const o = d.categories?.[c.id]
-    if (!o) continue
-    const clean: CategoryUiOverride = {}
-    if (o.label?.trim()) clean.label = o.label.trim()
-    if (o.description?.trim()) clean.description = o.description.trim()
-    if (o.image?.trim()) clean.image = o.image.trim()
-    if (o.alt?.trim()) clean.alt = o.alt.trim()
-    if (Object.keys(clean).length) cats[c.id] = clean
+  if (d.categories) {
+    for (const [id, o] of Object.entries(d.categories)) {
+      if (!o) continue
+      const clean: CategoryUiOverride = {}
+      if (o.label?.trim()) clean.label = o.label.trim()
+      if (o.description?.trim()) clean.description = o.description.trim()
+      if (o.image?.trim()) clean.image = o.image.trim()
+      if (o.alt?.trim()) clean.alt = o.alt.trim()
+      if (Object.keys(clean).length) cats[id] = clean
+    }
   }
   if (Object.keys(cats).length) out.categories = cats
+  if (d.hiddenCategoryIds?.length) out.hiddenCategoryIds = d.hiddenCategoryIds
+  if (d.customCategories?.length) out.customCategories = d.customCategories
   return out
 }
 
 export function AdminCatalogPage() {
   const [prefs, setPrefs] = useState<CatalogUiPrefs>(() => loadCatalogUiPrefs())
   const [savedMsg, setSavedMsg] = useState(false)
-
-  function setCatField(
-    id: ShopCategoryId,
-    key: keyof CategoryUiOverride,
-    value: string,
-  ) {
-    setPrefs((p) => ({
-      ...p,
-      categories: {
-        ...p.categories,
-        [id]: { ...p.categories?.[id], [key]: value },
-      },
-    }))
-  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -79,8 +68,8 @@ export function AdminCatalogPage() {
         <p className="admin-hero__eyebrow">Вітрина</p>
         <h1 className="admin-dashboard__title admin-hero__title">Каталог</h1>
         <p className="admin-dashboard__lead admin-hero__lead">
-          Створюйте нові товари прямо тут, редагуйте вигляд каталогу, підбірки та тексти категорій.
-          Порожні поля в блоці «Головний блок» = залишити значення за замовчуванням.
+          Створюйте товари, редагуйте категорії та підбірки. Порожні поля в «Головному блоці» =
+          значення за замовчуванням.
         </p>
       </header>
 
@@ -143,65 +132,9 @@ export function AdminCatalogPage() {
           </label>
         </div>
 
-        <h2 className="admin-glass__title" style={{ marginTop: '1.5rem' }}>
-          Категорії
-        </h2>
-        <p className="admin-panel__note admin-panel__note--tight">
-          Змінюються лише заповнені поля; підпис на стрічці категорій у списку товарів теж береться
-          з «Назва для вітрини».
-        </p>
-
-        <div className="admin-catalog-cats">
-          {shopCategories.map((c) => {
-            const o = prefs.categories?.[c.id] ?? {}
-            return (
-              <fieldset key={c.id} className="admin-catalog-cat">
-                <legend className="admin-catalog-cat__legend">{c.label}</legend>
-                <div className="admin-product-form__grid">
-                  <label className="admin-field">
-                    <span>Назва для вітрини</span>
-                    <input
-                      className="auth-field__input"
-                      value={o.label ?? ''}
-                      onChange={(e) => setCatField(c.id, 'label', e.target.value)}
-                      placeholder={c.label}
-                    />
-                  </label>
-                  <label className="admin-field admin-field--wide">
-                    <span>Опис на картці</span>
-                    <input
-                      className="auth-field__input"
-                      value={o.description ?? ''}
-                      onChange={(e) => setCatField(c.id, 'description', e.target.value)}
-                      placeholder="За замовчуванням з макета"
-                    />
-                  </label>
-                  <label className="admin-field admin-field--wide">
-                    <span>URL зображення</span>
-                    <input
-                      className="auth-field__input"
-                      value={o.image ?? ''}
-                      onChange={(e) => setCatField(c.id, 'image', e.target.value)}
-                      placeholder="https://…"
-                    />
-                  </label>
-                  <label className="admin-field admin-field--wide">
-                    <span>Alt для фото</span>
-                    <input
-                      className="auth-field__input"
-                      value={o.alt ?? ''}
-                      onChange={(e) => setCatField(c.id, 'alt', e.target.value)}
-                    />
-                  </label>
-                </div>
-              </fieldset>
-            )
-          })}
-        </div>
-
         <div className="admin-product-form__actions" style={{ marginTop: '1.25rem' }}>
           <button type="submit" className="admin-btn-primary">
-            Зберегти каталог
+            Зберегти головний блок
           </button>
           <button type="button" className="admin-btn-danger admin-btn-ghost" onClick={handleResetAll}>
             Скинути все
@@ -213,6 +146,8 @@ export function AdminCatalogPage() {
           </p>
         ) : null}
       </form>
+
+      <AdminCatalogCategoriesSection />
 
       <AdminUserCatalogsSection />
     </div>

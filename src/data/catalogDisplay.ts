@@ -76,20 +76,43 @@ export function getCatalogAllCardText(locale: Locale = 'uk'): { label: string; d
   }
 }
 
+function applyCategoryOverrides(
+  card: CatalogCategoryCard,
+  cats: Partial<Record<string, { label?: string; description?: string; image?: string; alt?: string }>>,
+): CatalogCategoryCard {
+  const o = cats[card.id]
+  if (!o) return card
+  return {
+    ...card,
+    label: o.label?.trim() || card.label,
+    description: o.description?.trim() || card.description,
+    image: o.image?.trim() || card.image,
+    alt: o.alt?.trim() || card.alt,
+  }
+}
+
 export function getCatalogCategoryCards(locale: Locale = 'uk'): CatalogCategoryCard[] {
   const p = loadCatalogUiPrefs()
   const cats = p.categories ?? {}
-  const mapped = catalogCategoryCards.map((card) => {
-    const o = cats[card.id]
-    if (!o) return card
+  const hidden = new Set(p.hiddenCategoryIds ?? [])
+
+  const builtIn = catalogCategoryCards
+    .filter((card) => !hidden.has(card.id))
+    .map((card) => applyCategoryOverrides(card, cats))
+
+  const custom: CatalogCategoryCard[] = (p.customCategories ?? []).map((c) => {
+    const o = cats[c.id]
     return {
-      ...card,
-      label: o.label?.trim() || card.label,
-      description: o.description?.trim() || card.description,
-      image: o.image?.trim() || card.image,
-      alt: o.alt?.trim() || card.alt,
+      id: c.id as ShopCategoryId,
+      label: o?.label?.trim() || c.label,
+      description: o?.description?.trim() || c.description,
+      image: o?.image?.trim() || c.image,
+      alt: o?.alt?.trim() || c.alt,
+      glow: c.glow,
     }
   })
+
+  const mapped = [...builtIn, ...custom]
 
   if (locale === 'uk') return mapped
 
@@ -107,9 +130,22 @@ export function getCatalogCategoryCards(locale: Locale = 'uk'): CatalogCategoryC
   })
 }
 
-export function getCategoryDisplayLabel(categoryId: ShopCategoryId, locale: Locale = 'uk'): string {
-  const o = loadCatalogUiPrefs().categories?.[categoryId]
+export function getCategoryDisplayLabel(categoryId: string, locale: Locale = 'uk'): string {
+  const prefs = loadCatalogUiPrefs()
+  const o = prefs.categories?.[categoryId]
   if (o?.label?.trim()) return o.label.trim()
-  if (locale === 'en') return CATEGORY_EN[categoryId] ?? categoryId
+  const custom = prefs.customCategories?.find((c) => c.id === categoryId)
+  if (custom) return custom.label
+  if (locale === 'en' && categoryId in CATEGORY_EN) {
+    return CATEGORY_EN[categoryId as ShopCategoryId]
+  }
   return shopCategories.find((c) => c.id === categoryId)?.label ?? categoryId
+}
+
+export function isKnownCatalogCategoryId(id: string): boolean {
+  if (!id) return false
+  const prefs = loadCatalogUiPrefs()
+  if (prefs.hiddenCategoryIds?.includes(id)) return false
+  if (prefs.customCategories?.some((c) => c.id === id)) return true
+  return shopCategories.some((c) => c.id === id)
 }

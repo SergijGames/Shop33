@@ -27,7 +27,9 @@ export function AdminLoginPage() {
   const onGitHubPages =
     typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')
   const needsRemoteApi = onGitHubPages && !hasApiBase()
+  // У dev (npm run dev) запити /api йдуть через проксі Vite — підказка не потрібна.
   const needsLocalApi =
+    !import.meta.env.DEV &&
     typeof window !== 'undefined' &&
     !onGitHubPages &&
     !hasApiBase() &&

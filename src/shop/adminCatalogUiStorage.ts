@@ -2,18 +2,24 @@
  * Shop31 — збережені в адмінці налаштування UI каталогу (hero, порядок тощо).
  * Зв’язки: AdminCatalogPage, catalogDisplay.ts
  */
-import type { ShopCategoryId } from '../data/shopCategories'
-import { shopCategories } from '../data/shopCategories'
+import type { CatalogGlow } from '../data/catalogCategories'
 
 const KEY = 'shop31_admin_catalog_ui_v1'
-
-const CAT_SET = new Set<string>(shopCategories.map((c) => c.id))
 
 export type CategoryUiOverride = {
   label?: string
   description?: string
   image?: string
   alt?: string
+}
+
+export type CustomCategoryDef = {
+  id: string
+  label: string
+  description: string
+  image: string
+  alt: string
+  glow: CatalogGlow
 }
 
 export type CatalogUiPrefs = {
@@ -23,7 +29,11 @@ export type CatalogUiPrefs = {
   heroCredit?: string
   allCardLabel?: string
   allCardDesc?: string
-  categories?: Partial<Record<ShopCategoryId, CategoryUiOverride>>
+  /** id категорій, прихованих на вітрині (базові з коду) */
+  hiddenCategoryIds?: string[]
+  /** Додаткові категорії, створені в адмінці */
+  customCategories?: CustomCategoryDef[]
+  categories?: Partial<Record<string, CategoryUiOverride>>
 }
 
 function isRecord(x: unknown): x is Record<string, unknown> {
@@ -52,12 +62,41 @@ export function loadCatalogUiPrefs(): CatalogUiPrefs {
     if (typeof p.heroCredit === 'string') out.heroCredit = p.heroCredit.slice(0, 500)
     if (typeof p.allCardLabel === 'string') out.allCardLabel = p.allCardLabel.slice(0, 120)
     if (typeof p.allCardDesc === 'string') out.allCardDesc = p.allCardDesc.slice(0, 300)
+    if (Array.isArray(p.hiddenCategoryIds)) {
+      out.hiddenCategoryIds = p.hiddenCategoryIds
+        .filter((x): x is string => typeof x === 'string' && x.trim().length > 0)
+        .map((x) => x.trim())
+    }
+    if (Array.isArray(p.customCategories)) {
+      const glows = new Set(['cyan', 'magenta', 'lime', 'violet'])
+      out.customCategories = p.customCategories
+        .map((raw) => {
+          if (!isRecord(raw)) return null
+          const id = typeof raw.id === 'string' ? raw.id.trim() : ''
+          const label = typeof raw.label === 'string' ? raw.label.trim() : ''
+          if (!id || !label) return null
+          const g = typeof raw.glow === 'string' ? raw.glow : 'cyan'
+          return {
+            id: id.slice(0, 80),
+            label: label.slice(0, 120),
+            description:
+              typeof raw.description === 'string' ? raw.description.trim().slice(0, 300) : '',
+            image:
+              typeof raw.image === 'string' && raw.image.trim()
+                ? raw.image.trim().slice(0, 2000)
+                : '',
+            alt: typeof raw.alt === 'string' ? raw.alt.trim().slice(0, 200) : label,
+            glow: glows.has(g) ? (g as CustomCategoryDef['glow']) : 'cyan',
+          }
+        })
+        .filter((x): x is CustomCategoryDef => x !== null)
+    }
     if (p.categories && isRecord(p.categories)) {
-      const cats: Partial<Record<ShopCategoryId, CategoryUiOverride>> = {}
+      const cats: Partial<Record<string, CategoryUiOverride>> = {}
       for (const [id, v] of Object.entries(p.categories)) {
-        if (!CAT_SET.has(id)) continue
+        if (!id.trim()) continue
         const parsed = parseOverride(v)
-        if (parsed) cats[id as ShopCategoryId] = parsed
+        if (parsed) cats[id] = parsed
       }
       if (Object.keys(cats).length) out.categories = cats
     }
@@ -69,4 +108,48 @@ export function loadCatalogUiPrefs(): CatalogUiPrefs {
 
 export function saveCatalogUiPrefs(prefs: CatalogUiPrefs): void {
   localStorage.setItem(KEY, JSON.stringify(prefs))
+}
+
+export function slugifyCategoryId(title: string): string {
+  const base = title
+    .toLowerCase()
+    .replace(/[^a-z0-9\u0400-\u04ff]+/gi, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 48)
+  return base || `cat-${Date.now().toString(36)}`
+}
+
+export function hideBuiltInCategory(id: string): void {
+  const p = loadCatalogUiPrefs()
+  const hidden = new Set(p.hiddenCategoryIds ?? [])
+  hidden.add(id)
+  saveCatalogUiPrefs({ ...p, hiddenCategoryIds: [...hidden] })
+}
+
+export function restoreBuiltInCategory(id: string): void {
+  const p = loadCatalogUiPrefs()
+  saveCatalogUiPrefs({
+    ...p,
+    hiddenCategoryIds: (p.hiddenCategoryIds ?? []).filter((x) => x !== id),
+  })
+}
+
+export function upsertCustomCategory(cat: CustomCategoryDef): void {
+  const p = loadCatalogUiPrefs()
+  const list = [...(p.customCategories ?? [])]
+  const i = list.findIndex((x) => x.id === cat.id)
+  if (i >= 0) list[i] = cat
+  else list.unshift(cat)
+  saveCatalogUiPrefs({ ...p, customCategories: list })
+}
+
+export function deleteCustomCategory(id: string): void {
+  const p = loadCatalogUiPrefs()
+  const cats = { ...p.categories }
+  delete cats[id]
+  saveCatalogUiPrefs({
+    ...p,
+    customCategories: (p.customCategories ?? []).filter((x) => x.id !== id),
+    categories: cats,
+  })
 }

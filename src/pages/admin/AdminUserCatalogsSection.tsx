@@ -107,7 +107,7 @@ export function AdminUserCatalogsSection() {
       </p>
 
       {list.length > 0 ? (
-        <ul className="admin-user-catalog-list">
+        <ul className="admin-user-catalog-list" style={{ marginBottom: '1rem' }}>
           {list.map((c) => (
             <li key={c.id} className="admin-user-catalog-row">
               <div>
@@ -138,7 +138,12 @@ export function AdminUserCatalogsSection() {
             </li>
           ))}
         </ul>
-      ) : null}
+      ) : (
+        <p className="admin-panel__empty" style={{ marginBottom: '1rem' }}>
+          Підбірок ще немає. Заповніть форму нижче і натисніть «Створити підбірку» — тоді з’являться
+          кнопки «Змінити» та «Видалити».
+        </p>
+      )}
 
       <h3 className="admin-glass__title" style={{ fontSize: '1rem', marginTop: '1rem' }}>
         {editingId ? 'Редагувати підбірку' : 'Нова підбірка'}

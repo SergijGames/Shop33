@@ -3732,6 +3732,10 @@
   font-size: 14px;
 }
 
+.admin-user-catalog-row--muted {
+  opacity: 0.55;
+}
+
 .admin-user-catalog-row__actions {
   display: flex;
   flex-wrap: wrap;

@@ -8,6 +8,7 @@ import { ProductGrid } from '../components/ProductGrid'
 import { getShopProducts } from '../data/catalog'
 import {
   getCatalogAllCardText,
+  getCatalogCategoryCards,
   getCategoryDisplayLabel,
 } from '../data/catalogDisplay'
 import { useI18n } from '../i18n/I18nContext'
@@ -17,11 +18,11 @@ import {
   productsForUserCatalog,
   type UserCatalog,
 } from '../shop/adminUserCatalogsStorage'
-import { parseCategoryParam, shopCategories, type ShopCategoryId } from '../data/shopCategories'
+import { parseCategoryRouteId } from '../data/shopCategories'
 
 type Mode =
   | { kind: 'all' }
-  | { kind: 'category'; id: ShopCategoryId }
+  | { kind: 'category'; id: string }
   | { kind: 'collection'; catalog: UserCatalog }
   | 'invalid'
 
@@ -31,7 +32,7 @@ export function CatalogCategoryPage() {
 
   const mode: Mode = useMemo(() => {
     if (categoryId === 'all') return { kind: 'all' }
-    const cat = parseCategoryParam(categoryId)
+    const cat = parseCategoryRouteId(categoryId)
     if (cat) return { kind: 'category', id: cat }
     const coll = findUserCatalog(categoryId)
     if (coll) return { kind: 'collection', catalog: coll }
@@ -53,6 +54,7 @@ export function CatalogCategoryPage() {
         : productsForUserCatalog(mode.catalog, shopProducts)
 
   const allCard = getCatalogAllCardText(locale)
+  const categoryCards = getCatalogCategoryCards(locale)
   const title =
     mode.kind === 'all'
       ? allCard.label
@@ -82,13 +84,13 @@ export function CatalogCategoryPage() {
           >
             {allCard.label}
           </Link>
-          {shopCategories.map((c) => (
+          {categoryCards.map((c) => (
             <Link
               key={c.id}
               to={`/catalog/${c.id}`}
               className={`catalog-category-chip${mode.kind === 'category' && mode.id === c.id ? ' catalog-category-chip--active' : ''}`}
             >
-              {getCategoryDisplayLabel(c.id, locale)}
+              {c.label}
             </Link>
           ))}
           {userCatalogs.map((c) => (
