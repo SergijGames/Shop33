@@ -70,6 +70,11 @@ export function AccountPage() {
   const [bonusEditValue, setBonusEditValue] = useState('0')
   const [bonusEditErr, setBonusEditErr] = useState<string | null>(null)
 
+  useEffect(() => {
+    setBonusEditValue(String(bonusBalance))
+    setBonusEditErr(null)
+  }, [bonusBalance])
+
   if (!user) {
     return <Navigate to="/login" replace state={{ from: { pathname: '/account' } }} />
   }
@@ -79,11 +84,6 @@ export function AccountPage() {
   const isAdmin = user.role === 'admin'
   const initials = userDisplayInitials(accountName)
   const orderCount = readOrders().length
-
-  useEffect(() => {
-    setBonusEditValue(String(bonusBalance))
-    setBonusEditErr(null)
-  }, [bonusBalance])
 
   function handleLogout() {
     logout()
