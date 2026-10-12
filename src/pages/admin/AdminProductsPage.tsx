@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: редагування товарів, кастомні позиції, правки «кодом».
+ * Shop33 — адмін: редагування товарів, кастомні позиції, правки «кодом».
  * Зв’язки: adminCodeProductEditsStorage, adminCustomProductsStorage, products, catalog
  */
 import { useCallback, useState, type FormEvent } from 'react'

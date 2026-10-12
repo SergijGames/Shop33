@@ -1,5 +1,5 @@
 /**
- * Shop31 — оформлення замовлення: контакти, бонуси, оплата (без карти / Stripe / LiqPay).
+ * Shop33 — оформлення замовлення: контакти, бонуси, оплата (без карти / Stripe / LiqPay).
  * Зв’язки: ShopContext, AuthContext, bonusStorage, CheckoutStripePayment, ordersStorage
  */
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
@@ -236,7 +236,7 @@ export function CheckoutPage() {
         body: JSON.stringify({
           amountUah: p.paidAfter,
           orderId,
-          description: 'Shop31 — замовлення',
+          description: 'Shop33 — замовлення',
           resultUrl: buildLiqpayReturnUrl(orderId),
           serverUrl: buildLiqpayServerCallbackUrl(),
         }),

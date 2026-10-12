@@ -5,14 +5,14 @@ services:
     image: postgres:16
     restart: unless-stopped
     environment:
-      POSTGRES_USER: shop31
-      POSTGRES_PASSWORD: shop31
-      POSTGRES_DB: shop31
+      POSTGRES_USER: shop33
+      POSTGRES_PASSWORD: shop33
+      POSTGRES_DB: shop33
     ports:
       - "5432:5432"
     volumes:
-      - shop31_pg_data:/var/lib/postgresql/data
+      - shop33_pg_data:/var/lib/postgresql/data
 
 volumes:
-  shop31_pg_data:
+  shop33_pg_data:
 

@@ -1,5 +1,5 @@
 /**
- * Shop31 — статичний каталог товарів (описи, ціни, зображення, відгуки за замовчуванням).
+ * Shop33 — статичний каталог товарів (описи, ціни, зображення, відгуки за замовчуванням).
  * Зв’язки: data/catalog.ts, ProductPage, ProductGrid, admin-редагування
  */
 import ipOrange1 from '../assets/products/iphone-17-cosmic-orange/01.png'

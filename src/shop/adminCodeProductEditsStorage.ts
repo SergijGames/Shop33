@@ -1,5 +1,5 @@
 /**
- * Shop31 — «кодові» правки полів існуючих товарів з адмін-панелі (localStorage).
+ * Shop33 — «кодові» правки полів існуючих товарів з адмін-панелі (localStorage).
  * Зв’язки: AdminProductsPage, data/catalog.ts
  */
 import type { Product, ProductReview, ProductVideo } from '../data/products'
@@ -7,7 +7,7 @@ import { products } from '../data/products'
 import type { ShopCategoryId } from '../data/shopCategories'
 import { shopCategories } from '../data/shopCategories'
 
-const KEY = 'shop31_admin_code_product_edits_v1'
+const KEY = 'shop33_admin_code_product_edits_v1'
 
 const ALLOWED_IDS = new Set(products.map((p) => p.id))
 const CATEGORY_SET = new Set<string>(shopCategories.map((c) => c.id))

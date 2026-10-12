@@ -1,5 +1,5 @@
 /**
- * Shop31 — форматування сум у гривнях залежно від активної мови (locale).
+ * Shop33 — форматування сум у гривнях залежно від активної мови (locale).
  * activeLocale оновлює I18nProvider; використовується в картках і checkout.
  * Зв’язки: I18nContext.tsx, ProductGrid, Checkout*, OrderThanksPage
  */

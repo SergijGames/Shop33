@@ -1,11 +1,11 @@
 /**
- * Shop31 — персональні підбірки товарів для користувачів (адмінка → localStorage).
+ * Shop33 — персональні підбірки товарів для користувачів (адмінка → localStorage).
  * Зв’язки: AdminUserCatalogsSection, CatalogCategoryPage (колекції)
  */
 import type { CatalogGlow } from '../data/catalogCategories'
 import type { Product } from '../data/products'
 
-const KEY = 'shop31_user_catalogs_v1'
+const KEY = 'shop33_user_catalogs_v1'
 
 const GLOWS: CatalogGlow[] = ['cyan', 'magenta', 'lime', 'violet']
 

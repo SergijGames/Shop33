@@ -1,5 +1,5 @@
 /**
- * Shop31 — провайдер мови інтерфейсу (UK/EN), localStorage, document.lang.
+ * Shop33 — провайдер мови інтерфейсу (UK/EN), localStorage, document.lang.
  * Оновлює формат чисел через setNumberFormatLocale.
  * Зв’язки: strings.ts, types.ts, formatMoney.ts, App.tsx (обгортка)
  */

@@ -1,4 +1,4 @@
-# Shop31 — локальна база без prisma dev (потрібен Docker Desktop).
+# Shop33 — локальна база без prisma dev (потрібен Docker Desktop).
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $server = Join-Path $root 'server'
@@ -13,7 +13,7 @@ Set-Location $server
 docker compose up -d
 Write-Host ''
 Write-Host 'Додайте в server/.env (якщо ще немає):'
-Write-Host 'DATABASE_URL="postgresql://shop31:shop31@127.0.0.1:5432/shop31?schema=public"'
+Write-Host 'DATABASE_URL="postgresql://shop33:shop33@127.0.0.1:5432/shop33?schema=public"'
 Write-Host ''
 npm run db:push
 npm run seed

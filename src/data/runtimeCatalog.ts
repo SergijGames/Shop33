@@ -1,5 +1,5 @@
 /**
- * Shop31 — runtime-джерело каталогу, яке можна підмінити даними з API.
+ * Shop33 — runtime-джерело каталогу, яке можна підмінити даними з API.
  * Це дозволяє зберегти синхронні getShopProducts/getShopProductById, але мати реальний бекенд.
  */
 import type { Product } from './products'

@@ -1,5 +1,5 @@
 /**
- * Shop31 — медіа-картки категорій для головної/каталогу (зображення, опис, glow).
+ * Shop33 — медіа-картки категорій для головної/каталогу (зображення, опис, glow).
  * Зв’язки: catalogDisplay.ts, HomePage, CatalogIndexPage
  */
 import type { ShopCategoryId } from './shopCategories'

@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: список користувачів (сервер) + локальні бонуси (браузер).
+ * Shop33 — адмін: список користувачів (сервер) + локальні бонуси (браузер).
  * Зв’язки: api/client, AuthContext, bonusStorage, auth/storage (fallback)
  */
 import type { FormEvent } from 'react'

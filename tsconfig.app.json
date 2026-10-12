@@ -1,5 +1,5 @@
 {
-  // Shop31: компіляція коду додатка в src/ (DOM, React, Vite client types).
+  // Shop33: компіляція коду додатка в src/ (DOM, React, Vite client types).
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2023",

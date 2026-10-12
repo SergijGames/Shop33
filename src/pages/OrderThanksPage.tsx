@@ -1,5 +1,5 @@
 /**
- * Shop31 — подяка після замовлення; перевірка Stripe return_url, фіналізація чернетки.
+ * Shop33 — подяка після замовлення; перевірка Stripe return_url, фіналізація чернетки.
  * Зв’язки: finalizeStripeDraft, pendingStripeCheckout, ordersStorage, i18n
  */
 import { useEffect, useMemo, useState } from 'react'

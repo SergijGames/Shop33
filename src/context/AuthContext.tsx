@@ -1,5 +1,5 @@
 /**
- * Shop31 — контекст автентифікації (користувач, вхід/вихід, реєстрація).
+ * Shop33 — контекст автентифікації (користувач, вхід/вихід, реєстрація).
  * Реальний режим: бекенд /api/auth/* + JWT у localStorage.
  * Зв’язки: auth/storage.ts (сесія+токен), pages Login/Register/AdminLogin
  */
@@ -110,7 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     emit()
 
     const onStorage = (e: StorageEvent) => {
-      if (e.key?.startsWith('shop31_auth')) {
+      if (e.key?.startsWith('shop33_auth')) {
         sessionSnapshot = readSession()
         tokenSnapshot = readAuthToken()
         emit()

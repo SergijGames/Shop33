@@ -1,5 +1,5 @@
 /**
- * Shop31 — головна адмін-панелі: зведена статистика та посилання в розділи.
+ * Shop33 — головна адмін-панелі: зведена статистика та посилання в розділи.
  * Зв’язки: AdminShell, auth/storage, orders, products, adminCustomProductsStorage
  */
 import { useEffect, useState } from 'react'
@@ -42,7 +42,7 @@ export function AdminDashboard() {
   return (
     <div className="container admin-dashboard admin-dashboard--home">
       <header className="admin-hero">
-        <p className="admin-hero__eyebrow">Shop31 · Command</p>
+        <p className="admin-hero__eyebrow">Shop33 · Command</p>
         <h1 className="admin-dashboard__title admin-hero__title">Огляд магазину</h1>
         <p className="admin-dashboard__lead admin-hero__lead">
           Панель керування: швидкий огляд вітрини, замовлень і користувачів. Товари можна вести через

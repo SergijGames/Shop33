@@ -1,8 +1,8 @@
 /**
- * Shop31 — UI-налаштування сторінки пошуку (підказка тощо), localStorage.
+ * Shop33 — UI-налаштування сторінки пошуку (підказка тощо), localStorage.
  * Зв’язки: AdminSearchPage, searchProducts.ts, SearchPage
  */
-const KEY = 'shop31_admin_search_ui_v1'
+const KEY = 'shop33_admin_search_ui_v1'
 
 export type SearchUiPrefs = {
   /** Підказка на сторінці /search без запиту */

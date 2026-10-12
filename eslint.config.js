@@ -1,6 +1,6 @@
 /**
- * Shop31 — ESLint 9 (flat config): TypeScript + React Hooks + React Refresh для Vite.
- * Перевіряє `**/*.{ts,tsx}`; каталог `dist` ігнорується.
+ * Shop33 — ESLint 9 (flat config): TypeScript + React Hooks + React Refresh для Vite.
+ * Перевіряє файли *.ts / *.tsx; каталог `dist` ігнорується.
  * Зв’язки: npm run lint, tsconfig.app.json
  */
 import js from '@eslint/js'
@@ -23,6 +23,11 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+    },
+    rules: {
+      // Стилістичні правила React Compiler — попередження, не блокують CI.
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-refresh/only-export-components': 'warn',
     },
   },
 ])

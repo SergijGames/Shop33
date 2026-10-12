@@ -1,5 +1,5 @@
 /**
- * Shop31 — сервер оплати (Express + Stripe).
+ * Shop33 — сервер оплати (Express + Stripe).
  * PaymentIntent для оплати на сайті; опційно Stripe Connect (STRIPE_CONNECTED_ACCOUNT_ID).
  * Зв’язки: фронт CheckoutPage / finalizeStripeDraft; змінні в server/.env
  */
@@ -27,15 +27,15 @@ const DATABASE_URL = (process.env.DATABASE_URL || '').trim()
 const JWT_SECRET = (process.env.JWT_SECRET || '').trim()
 
 if (!DATABASE_URL) {
-  console.warn('[Shop31 api] DATABASE_URL не задано у server/.env (Postgres).')
+  console.warn('[Shop33 api] DATABASE_URL не задано у server/.env (Postgres).')
 }
 if (!JWT_SECRET) {
-  console.warn('[Shop31 api] JWT_SECRET не задано у server/.env (для токенів входу).')
+  console.warn('[Shop33 api] JWT_SECRET не задано у server/.env (для токенів входу).')
 }
 
 if (!secret) {
   console.warn(
-    '[Shop31 payment] STRIPE_SECRET_KEY не задано. Додайте ключ у server/.env (див. server/env.example).',
+    '[Shop33 payment] STRIPE_SECRET_KEY не задано. Додайте ключ у server/.env (див. server/env.example).',
   )
 }
 
@@ -47,7 +47,7 @@ const STRIPE_CONNECTED_ACCOUNT_ID = (process.env.STRIPE_CONNECTED_ACCOUNT_ID || 
 
 if (STRIPE_CONNECTED_ACCOUNT_ID && !STRIPE_CONNECTED_ACCOUNT_ID.startsWith('acct_')) {
   console.warn(
-    '[Shop31 payment] STRIPE_CONNECTED_ACCOUNT_ID має починатися з acct_ (ід підключеного акаунту в Stripe Connect).',
+    '[Shop33 payment] STRIPE_CONNECTED_ACCOUNT_ID має починатися з acct_ (ід підключеного акаунту в Stripe Connect).',
   )
 }
 
@@ -490,7 +490,7 @@ app.post('/api/liqpay/create-checkout', async (req, res) => {
       action: 'pay',
       amount: Number(amount.toFixed(2)),
       currency: 'UAH',
-      description: typeof description === 'string' && description.trim() ? description.trim().slice(0, 250) : 'Shop31 — замовлення',
+      description: typeof description === 'string' && description.trim() ? description.trim().slice(0, 250) : 'Shop33 — замовлення',
       order_id: orderId.slice(0, 255),
       result_url: resultUrl,
       server_url: serverUrl,
@@ -610,7 +610,7 @@ app.post('/api/stripe/create-checkout-session', async (req, res) => {
               currency: 'uah',
               unit_amount: unitAmount,
               product_data: {
-                name: 'Shop31 — замовлення',
+                name: 'Shop33 — замовлення',
                 description: 'Оплата замовлення в інтернет-магазині',
               },
             },
@@ -624,7 +624,7 @@ app.post('/api/stripe/create-checkout-session', async (req, res) => {
             ? customerEmail.slice(0, 320)
             : undefined,
         metadata: {
-          app: 'shop31',
+          app: 'shop33',
         },
       },
       stripeRequestOptions,
@@ -669,7 +669,7 @@ app.post('/api/stripe/create-payment-intent', async (req, res) => {
         currency: 'uah',
         automatic_payment_methods: { enabled: true },
         metadata: {
-          app: 'shop31',
+          app: 'shop33',
           client_reference_id: clientReferenceId.slice(0, 500),
         },
         receipt_email:
@@ -840,10 +840,10 @@ app.get('/api/stripe/session-status', async (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`[Shop31 payment] http://127.0.0.1:${PORT}`)
+  console.log(`[Shop33 payment] http://127.0.0.1:${PORT}`)
   if (STRIPE_CONNECTED_ACCOUNT_ID) {
     console.log(
-      `[Shop31 payment] Коші зараховуються на Connect-акаунт ${STRIPE_CONNECTED_ACCOUNT_ID} (його виплати в Dashboard).`,
+      `[Shop33 payment] Коші зараховуються на Connect-акаунт ${STRIPE_CONNECTED_ACCOUNT_ID} (його виплати в Dashboard).`,
     )
   }
 
@@ -861,16 +861,16 @@ app.listen(PORT, () => {
               role: 'admin',
             },
           })
-          console.log(`[Shop31 api] Seed admin створено: ${SEED_ADMIN_EMAIL}`)
+          console.log(`[Shop33 api] Seed admin створено: ${SEED_ADMIN_EMAIL}`)
         } else {
           await prisma.user.update({
             where: { email: SEED_ADMIN_EMAIL },
             data: { name: SEED_ADMIN_NAME || 'Administrator', passwordHash, role: 'admin' },
           })
-          console.log(`[Shop31 api] Seed admin оновлено: ${SEED_ADMIN_EMAIL}`)
+          console.log(`[Shop33 api] Seed admin оновлено: ${SEED_ADMIN_EMAIL}`)
         }
       } catch (e) {
-        console.warn('[Shop31 api] Не вдалося створити seed admin:', e instanceof Error ? e.message : String(e))
+        console.warn('[Shop33 api] Не вдалося створити seed admin:', e instanceof Error ? e.message : String(e))
       }
     })()
   }

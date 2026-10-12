@@ -1,5 +1,4 @@
-## Shop31
-go-live checklist
+## Shop33 — go-live checklist
 
 Ціль: мати **живе демо** (вітрина + адмінка), з бекендом, БД, і підключеними оплатами (Stripe + LiqPay).
 
@@ -15,12 +14,12 @@ go-live checklist
 1. Render → **New** → **Blueprint**
 2. Обери свій GitHub repo
 3. Render прочитає `render.yaml` і створить:
-   - `shop31-db` (Postgres)
-   - `shop31-api` (Node Web Service)
+   - `shop33-db` (Postgres)
+   - `shop33-api` (Node Web Service)
 
 #### 1.2 ENV в Render (обов’язково)
 
-У `shop31-api` додай environment variables:
+У `shop33-api` додай environment variables:
 - `JWT_SECRET` = довгий випадковий рядок
 - `SEED_ADMIN_EMAIL` = admin email
 - `SEED_ADMIN_PASSWORD` = admin password

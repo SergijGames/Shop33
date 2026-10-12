@@ -1,10 +1,10 @@
 /**
- * Shop31 — збережені в адмінці налаштування UI каталогу (hero, порядок тощо).
+ * Shop33 — збережені в адмінці налаштування UI каталогу (hero, порядок тощо).
  * Зв’язки: AdminCatalogPage, catalogDisplay.ts
  */
 import type { CatalogGlow } from '../data/catalogCategories'
 
-const KEY = 'shop31_admin_catalog_ui_v1'
+const KEY = 'shop33_admin_catalog_ui_v1'
 
 export type CategoryUiOverride = {
   label?: string

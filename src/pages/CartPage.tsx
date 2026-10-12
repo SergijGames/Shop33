@@ -1,5 +1,5 @@
 /**
- * Shop31 — кошик: рядки замовлення, зміна кількості, перехід на checkout.
+ * Shop33 — кошик: рядки замовлення, зміна кількості, перехід на checkout.
  * Зв’язки: ShopContext, catalog, i18n
  */
 import { Link } from 'react-router-dom'

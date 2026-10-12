@@ -1,10 +1,10 @@
 /**
- * Shop31 — додаткові відгуки до товарів (localStorage), зливаються у catalog.
+ * Shop33 — додаткові відгуки до товарів (localStorage), зливаються у catalog.
  * Зв’язки: ProductPage, data/catalog.ts, data/products.ts
  */
 import type { ProductReview } from '../data/products'
 
-const KEY = 'shop31_product_reviews_v1'
+const KEY = 'shop33_product_reviews_v1'
 
 export type ExtraReviewsMap = Record<string, ProductReview[]>
 

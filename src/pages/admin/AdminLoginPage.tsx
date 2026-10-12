@@ -1,5 +1,5 @@
 /**
- * Shop31 — вхід у адмін-панель (обліковий запис admin у базі).
+ * Shop33 — вхід у адмін-панель (обліковий запис admin у базі).
  * Зв’язки: AuthContext, ADMIN_* константи
  */
 import { useEffect, useState, type FormEvent } from 'react'

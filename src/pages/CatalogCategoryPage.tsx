@@ -1,5 +1,5 @@
 /**
- * Shop31 — товари однієї категорії або користувацької підбірки (?cat=...).
+ * Shop33 — товари однієї категорії або користувацької підбірки (?cat=...).
  * Зв’язки: catalog, shopCategories, ProductGrid, i18n
  */
 import { useMemo } from 'react'

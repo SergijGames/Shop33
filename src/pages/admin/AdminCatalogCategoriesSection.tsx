@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: категорії каталогу (редагування, видалення, нові).
+ * Shop33 — адмін: категорії каталогу (редагування, видалення, нові).
  */
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'

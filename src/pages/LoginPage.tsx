@@ -1,5 +1,5 @@
 /**
- * Shop31 — вхід користувача (email/пароль через API).
+ * Shop33 — вхід користувача (email/пароль через API).
  * Зв’язки: AuthContext, auth/storage, i18n
  */
 import { useState, type FormEvent } from 'react'

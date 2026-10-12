@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: підбірки товарів для користувачів (окремі «каталоги»).
+ * Shop33 — адмін: підбірки товарів для користувачів (окремі «каталоги»).
  * Зв’язки: adminUserCatalogsStorage, products, catalogCategories (glow)
  */
 import { useCallback, useState, type FormEvent } from 'react'

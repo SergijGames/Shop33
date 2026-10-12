@@ -1,10 +1,10 @@
 /**
- * Shop31 — чернетка замовлення в sessionStorage під час оплати Stripe.
+ * Shop33 — чернетка замовлення в sessionStorage під час оплати Stripe.
  * Зв’язки: CheckoutPage, OrderThanksPage, finalizeStripeDraft.ts
  */
 import type { OrderLine } from '../shop/ordersStorage'
 
-export const PENDING_STRIPE_STORAGE_PREFIX = 'shop31_pending_stripe_'
+export const PENDING_STRIPE_STORAGE_PREFIX = 'shop33_pending_stripe_'
 
 /** Чернетка замовлення перед редіректом у Stripe Checkout. */
 export type PendingStripeDraftV1 = {

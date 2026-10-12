@@ -1,5 +1,5 @@
 /**
- * Shop31 — ідентифікатори категорій вітрини та мітки для фільтра каталогу (?cat=...).
+ * Shop33 — ідентифікатори категорій вітрини та мітки для фільтра каталогу (?cat=...).
  * Зв’язки: catalogDisplay.ts, Catalog*Page, catalog.ts
  */
 import { loadCatalogUiPrefs } from '../shop/adminCatalogUiStorage'

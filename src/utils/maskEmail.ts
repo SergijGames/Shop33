@@ -1,5 +1,5 @@
 /**
- * Shop31 — маскування email для шапки профілю (показ без повного адреса).
+ * Shop33 — маскування email для шапки профілю (показ без повного адреса).
  * Зв’язки: Layout.tsx, AccountPage
  */
 export function maskEmail(email: string): string {

@@ -1,5 +1,5 @@
 /**
- * Shop31 — реєстрація акаунта та опційний лист EmailJS.
+ * Shop33 — реєстрація акаунта та опційний лист EmailJS.
  * Зв’язки: AuthContext, sendRegistrationThankYou, i18n
  */
 import { useState, type FormEvent } from 'react'

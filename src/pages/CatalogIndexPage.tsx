@@ -1,5 +1,5 @@
 /**
- * Shop31 — індекс каталогу: сітка категорій і колекцій користувача.
+ * Shop33 — індекс каталогу: сітка категорій і колекцій користувача.
  * Зв’язки: catalogDisplay, adminUserCatalogsStorage, ProductGrid
  */
 import { useCallback } from 'react'

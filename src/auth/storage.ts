@@ -1,5 +1,5 @@
 /**
- * Shop31 — збереження локального списку користувачів і поточної сесії (localStorage, режим сумісності).
+ * Shop33 — збереження локального списку користувачів і поточної сесії (localStorage, режим сумісності).
  * Зв’язки: AuthContext.tsx, LoginPage, RegisterPage
  */
 export type StoredUser = {
@@ -16,14 +16,14 @@ export type UserSession = {
 }
 
 /** v4: усі старі списки користувачів видаляються при старті (залишається лише вхід адміна). */
-const USERS_KEY = 'shop31_auth_users_v4'
-const SESSION_KEY = 'shop31_auth_session_v1'
-const TOKEN_KEY = 'shop31_auth_token_v1'
+const USERS_KEY = 'shop33_auth_users_v4'
+const SESSION_KEY = 'shop33_auth_session_v1'
+const TOKEN_KEY = 'shop33_auth_token_v1'
 
 const LEGACY_USER_KEYS = [
-  'shop31_auth_users_v1',
-  'shop31_auth_users_v2',
-  'shop31_auth_users_v3',
+  'shop33_auth_users_v1',
+  'shop33_auth_users_v2',
+  'shop33_auth_users_v3',
 ] as const
 
 /** Видаляє старі сховища зареєстрованих користувачів (адмін не зберігається в цьому списку). */

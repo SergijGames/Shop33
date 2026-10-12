@@ -1,8 +1,8 @@
 /**
- * Shop31 — бонусні бали по email у localStorage; підписка на зміни (listeners).
+ * Shop33 — бонусні бали по email у localStorage; підписка на зміни (listeners).
  * Зв’язки: CheckoutPage, AccountPage, useBonusBalance, config/bonus.ts
  */
-const KEY = 'shop31_bonus_balance_v1'
+const KEY = 'shop33_bonus_balance_v1'
 
 type Balances = Record<string, number>
 

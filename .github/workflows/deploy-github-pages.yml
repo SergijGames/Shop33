@@ -40,6 +40,7 @@ jobs:
           # Payments (optional, only if you enable Stripe/LiqPay in prod)
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
           VITE_LIQPAY_ENABLED: ${{ secrets.VITE_LIQPAY_ENABLED }}
+          VITE_STRIPE_CHECKOUT_ENABLED: ${{ secrets.VITE_STRIPE_CHECKOUT_ENABLED }}
         run: npx tsc -b && npx vite build --base=/${{ github.event.repository.name }}/
       # v3 більше не приймається на GitHub.com (потрібен артефакт через upload-artifact v4+).
       - uses: actions/upload-pages-artifact@v4

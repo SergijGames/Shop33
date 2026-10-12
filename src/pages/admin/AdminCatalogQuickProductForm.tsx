@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: швидка форма додавання товару в каталог (кастомний product).
+ * Shop33 — адмін: швидка форма додавання товару в каталог (кастомний product).
  * Зв’язки: adminCustomProductsStorage, data/products (структура)
  */
 import { useState, type FormEvent } from 'react'
