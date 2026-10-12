@@ -1,6 +1,6 @@
 {
   "name": "shop33-payment-api",
-  "description": "Shop33 — API оплати Stripe (Express). Запуск: npm start у каталозі server/. Див. docs/СТРУКТУРА-ПРОЄКТУ.md",
+  "description": "Shop33 API (Express + Prisma/Postgres + Stripe + LiqPay). Start: npm start",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +10,9 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "seed": "node seed.mjs"
+    "seed": "node seed.mjs",
+    "test": "node --test test/",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -23,5 +25,9 @@
     "prisma": "^6.19.3",
     "stripe": "^17.7.0",
     "zod": "^4.3.6"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
   }
 }
