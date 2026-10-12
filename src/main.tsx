@@ -1,8 +1,9 @@
 /**
- * Shop31 — вхід SPA (точка монтування React).
+ * Shop33 — вхід SPA (точка монтування React).
  * Підключає глобальні стилі й рендерить кореневий компонент додатка.
  * Зв’язки: App.tsx (маршрути), ./index.css
  */
+import './utils/migrateLegacyStorage'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
