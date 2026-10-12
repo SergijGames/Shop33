@@ -1,5 +1,5 @@
 /**
- * Shop31 — зведений каталог: базові products + кастомні товари + правки адмінки + відгуки.
+ * Shop33 — зведений каталог: базові products + кастомні товари + правки адмінки + відгуки.
  * Єдина точка getShopProductById / списків для вітрини.
  * Зв’язки: products.ts, shop/admin*Storage, productReviewsStorage
  */
@@ -10,7 +10,7 @@ import type { Product } from './products'
 import { products } from './products'
 import { getRuntimeProducts } from './runtimeCatalog'
 
-const CATALOG_PREFS_KEY = 'shop31_admin_catalog_v1'
+const CATALOG_PREFS_KEY = 'shop33_admin_catalog_v1'
 
 export type CatalogOverrides = Partial<
   Pick<Product, 'name' | 'priceUah' | 'oldPriceUah'>

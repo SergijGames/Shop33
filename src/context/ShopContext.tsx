@@ -1,5 +1,5 @@
 /**
- * Shop31 — контекст вітрини: кошик, обране, додавання товарів.
+ * Shop33 — контекст вітрини: кошик, обране, додавання товарів.
  * Читає/зберігає дані через shop/storage (localStorage).
  * Зв’язки: shop/storage.ts, data/catalog.ts, CartPage, ProductGrid, ProductPage
  */
@@ -72,7 +72,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (e.key === 'shop31_favorites_v1' || e.key === 'shop31_cart_v1') {
+      if (e.key === 'shop33_favorites_v1' || e.key === 'shop33_cart_v1') {
         setSnap({
           favorites: loadFavorites(),
           cart: loadCart(),

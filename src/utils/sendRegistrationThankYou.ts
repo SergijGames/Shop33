@@ -1,5 +1,5 @@
 /**
- * Shop31 — листи через EmailJS: реєстрація та підтвердження замовлення.
+ * Shop33 — листи через EmailJS: реєстрація та підтвердження замовлення.
  * Резерв mailto — у customerEmailFlow (викликається з AuthContext / checkout).
  * Зв’язки: RegisterPage, customerEmailFlow, ordersStorage (тип замовлення)
  */
@@ -56,7 +56,7 @@ async function sendEmailJs(
     }
     if (!templateId) missing.push('VITE_EMAILJS_TEMPLATE_ID')
     console.warn(
-      `[Shop31] EmailJS: не надіслано — у .env немає: ${missing.join(', ')}. Див. .env.example.`,
+      `[Shop33] EmailJS: не надіслано — у .env немає: ${missing.join(', ')}. Див. .env.example.`,
     )
     return { ok: false, reason: 'not_configured' }
   }
@@ -66,7 +66,7 @@ async function sendEmailJs(
     await emailjs.send(base.serviceId, templateId, templateParams)
     return { ok: true }
   } catch (err) {
-    console.error('[Shop31] EmailJS:', err)
+    console.error('[Shop33] EmailJS:', err)
     return { ok: false, reason: 'send_failed', message: emailJsErrorMessage(err) }
   }
 }
@@ -83,32 +83,32 @@ export async function sendRegistrationThankYou(params: {
 }): Promise<RegistrationThankYouResult> {
   const templateId = registrationTemplateId()
   if (!templateId) {
-    console.warn('[Shop31] Лист реєстрації: задайте VITE_EMAILJS_TEMPLATE_ID у .env')
+    console.warn('[Shop33] Лист реєстрації: задайте VITE_EMAILJS_TEMPLATE_ID у .env')
     return { ok: false, reason: 'not_configured' }
   }
 
-  const emailIntro = `Вітаємо, ${params.name}! Дякуємо за реєстрацію в Shop31.`
+  const emailIntro = `Вітаємо, ${params.name}! Дякуємо за реєстрацію в Shop33.`
 
   const thankYouText = `${emailIntro}
 
 Раді бачити вас у нашому неоновому магазині.
 
 Гарних покупок!
-Команда Shop31`
+Команда Shop33`
 
   return sendEmailJs(templateId, {
     user_email: params.email,
     email: params.email,
     user_name: params.name,
     email_intro: emailIntro,
-    email_subject: 'Дякуємо за реєстрацію в Shop31',
+    email_subject: 'Дякуємо за реєстрацію в Shop33',
     thank_you_text: thankYouText,
   })
 }
 
 /**
  * Підтвердження замовлення на email (той самий або окремий шаблон VITE_EMAILJS_TEMPLATE_ORDER_ID).
- * Для гостя лист іде на hello@shop31.ua (поле user_email), у тексті — дані покупця.
+ * Для гостя лист іде на hello@shop33.ua (поле user_email), у тексті — дані покупця.
  *
  * Рекомендовані поля шаблону (як у реєстрації + опційно):
  *   order_id, order_summary, payment_label
@@ -130,7 +130,7 @@ export async function sendOrderConfirmationEmail(order: SavedOrder): Promise<Reg
         ? 'Оплата через LiqPay'
         : 'Оформлення без онлайн-оплати карткою'
 
-  const toEmail = order.customerEmail?.trim() || 'hello@shop31.ua'
+  const toEmail = order.customerEmail?.trim() || 'hello@shop33.ua'
 
   const intro = order.customerEmail?.trim()
     ? `Дякуємо за замовлення, ${order.customerName}!`
@@ -148,14 +148,14 @@ ${summary}
 Місто / доставка: ${order.city}
 ${order.comment ? `Коментар: ${order.comment}\n` : ''}
 Ми зв’яжемося для підтвердження.
-Команда Shop31`
+Команда Shop33`
 
   return sendEmailJs(templateId, {
     user_email: toEmail,
     email: toEmail,
     user_name: order.customerName,
     email_intro: intro,
-    email_subject: `Замовлення Shop31 №${order.id}`,
+    email_subject: `Замовлення Shop33 №${order.id}`,
     thank_you_text: thankYouText,
     order_id: order.id,
     order_summary: summary,

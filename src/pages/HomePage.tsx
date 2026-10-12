@@ -1,5 +1,5 @@
 /**
- * Shop31 — головна сторінка: hero, хіти продажів, посилання в каталог.
+ * Shop33 — головна сторінка: hero, хіти продажів, посилання в каталог.
  * Зв’язки: catalog, ProductGrid, catalogDisplay (через дані), i18n
  */
 import { Link } from 'react-router-dom'

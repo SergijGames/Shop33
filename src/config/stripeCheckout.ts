@@ -1,5 +1,5 @@
 /**
- * Shop31 — клієнтський конфіг Stripe (увімкнення, publishable key, режими).
+ * Shop33 — клієнтський конфіг Stripe (увімкнення, publishable key, режими).
  * Оплата на сайті: Payment Element + PaymentIntent; сервер: server/index.mjs.
  * У .env кореня: VITE_STRIPE_CHECKOUT_ENABLED, VITE_STRIPE_PUBLISHABLE_KEY тощо.
  */

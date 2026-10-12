@@ -1,5 +1,5 @@
 /**
- * Shop31 — поле пошуку в шапці; перенаправлення на /search з query.
+ * Shop33 — поле пошуку в шапці; перенаправлення на /search з query.
  * Рядки інтерфейсу через i18n.
  * Зв’язки: Layout.tsx, SearchPage.tsx, searchProducts.ts
  */

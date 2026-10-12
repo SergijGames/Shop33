@@ -1,9 +1,9 @@
 /**
- * Shop31 — збереження кошика та обраного в localStorage.
+ * Shop33 — збереження кошика та обраного в localStorage.
  * Зв’язки: ShopContext.tsx, CartPage, FavoritesPage, ProductGrid
  */
-const FAV_KEY = 'shop31_favorites_v1'
-const CART_KEY = 'shop31_cart_v1'
+const FAV_KEY = 'shop33_favorites_v1'
+const CART_KEY = 'shop33_cart_v1'
 
 export function loadFavorites(): string[] {
   try {

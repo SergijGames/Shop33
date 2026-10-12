@@ -1,5 +1,5 @@
 /**
- * Shop31 — HTTP клієнт для бекенду (auth/admin/catalog/orders).
+ * Shop33 — HTTP клієнт для бекенду (auth/admin/catalog/orders).
  * За замовчуванням використовує VITE_API_BASE_URL або VITE_PAYMENT_API_URL (якщо бекенд той самий).
  */
 

@@ -1,5 +1,5 @@
 /**
- * Seed для Shop31: admin + стартові товари в Postgres.
+ * Seed для Shop33: admin + стартові товари в Postgres.
  * Запуск:
  *   cd server
  *   node seed.mjs

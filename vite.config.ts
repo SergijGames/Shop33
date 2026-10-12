@@ -1,5 +1,5 @@
 /**
- * Shop31 — конфігурація збірки Vite (frontend).
+ * Shop33 — конфігурація збірки Vite (frontend).
  * base для file://, проксі /api на payment server, плагін для index.html у dist.
  * Зв’язки: index.html, server/index.mjs (порт за замовчуванням 4242)
  */

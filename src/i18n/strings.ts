@@ -1,5 +1,5 @@
 /**
- * Shop31 — словник перекладів інтерфейсу (UK/EN) і функція translate().
+ * Shop33 — словник перекладів інтерфейсу (UK/EN) і функція translate().
  * Ключі повідомлень споживає I18nContext та компоненти через t().
  * Зв’язки: I18nContext.tsx, types.ts (Locale, MsgKey)
  */
@@ -26,7 +26,7 @@ export const STR = {
   'account.guestHint': { uk: 'Увійти', en: 'Sign in' },
   'account.guestAria': { uk: 'Профіль: увійти', en: 'Profile: sign in' },
 
-  'footer.copy': { uk: '© 2026 Shop31. Неоновий досвід покупок.', en: '© 2026 Shop31. A neon shopping experience.' },
+  'footer.copy': { uk: '© 2026 Shop33. Неоновий досвід покупок.', en: '© 2026 Shop33. A neon shopping experience.' },
   'footer.buyers': { uk: 'Покупцям', en: 'For shoppers' },
   'footer.contacts': { uk: 'Контакти', en: 'Contact' },
   'footer.login': { uk: 'Вхід', en: 'Sign in' },
@@ -276,8 +276,8 @@ export const STR = {
 
   'reg.title': { uk: 'Реєстрація', en: 'Register' },
   'reg.lead': {
-    uk: 'Створіть акаунт Shop31. Після реєстрації на пошту може автоматично надійти лист-подяка (через EmailJS — див. .env.example).',
-    en: 'Create a Shop31 account. After signup you may get a thank-you email (EmailJS — see .env.example).',
+    uk: 'Створіть акаунт Shop33. Після реєстрації на пошту може автоматично надійти лист-подяка (через EmailJS — див. .env.example).',
+    en: 'Create a Shop33 account. After signup you may get a thank-you email (EmailJS — see .env.example).',
   },
   'reg.name': { uk: 'Ім’я', en: 'Name' },
   'reg.email': { uk: 'Електронна пошта', en: 'Email' },
@@ -324,7 +324,7 @@ export const STR = {
 
   'account.role': { uk: 'Адміністратор', en: 'Administrator' },
   'account.promosAria': { uk: 'Пропозиції', en: 'Offers' },
-  'account.clubTitle': { uk: 'Клуб Shop31', en: 'Shop31 Club' },
+  'account.clubTitle': { uk: 'Клуб Shop33', en: 'Shop33 Club' },
   'account.clubSub': {
     uk: 'Персональні знижки та неонові бонуси',
     en: 'Personal discounts and neon bonuses',

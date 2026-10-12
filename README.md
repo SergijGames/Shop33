@@ -1,4 +1,4 @@
-# Shop31 — інтернет‑магазин (sale‑ready)
+# Shop33 — інтернет‑магазин (sale‑ready)
 
 Цей репозиторій містить:
 - **Frontend**: Vite + React (`/src`)
@@ -17,7 +17,7 @@ cd server && npm install
 
 ```bash
 cd server
-npx prisma dev --name shop31
+npx prisma dev --name shop33
 ```
 
 Скопіюй `DATABASE_URL` який виведе команда у `server/.env`.

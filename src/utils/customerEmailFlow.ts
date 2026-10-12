@@ -1,5 +1,5 @@
 /**
- * Shop31 — автоматичні листи після замовлення (EmailJS + резерв mailto) і mailto після реєстрації.
+ * Shop33 — автоматичні листи після замовлення (EmailJS + резерв mailto) і mailto після реєстрації.
  * Зв’язки: sendRegistrationThankYou, AuthContext, CheckoutPage, finalizeStripeDraft
  */
 import type { SavedOrder } from '../shop/ordersStorage'
@@ -9,9 +9,9 @@ import {
 } from './sendRegistrationThankYou'
 
 /** Куди надсилати копію замовлення гостя (немає email акаунта). */
-export const SHOP_ORDER_INBOX = 'hello@shop31.ua'
+export const SHOP_ORDER_INBOX = 'hello@shop33.ua'
 
-const ORDER_MAIL_DEDUP = 'shop31_order_mailed_'
+const ORDER_MAIL_DEDUP = 'shop33_order_mailed_'
 
 export function formatOrderSummaryUk(order: SavedOrder): string {
   const lines = order.lines
@@ -63,11 +63,11 @@ export function openRegistrationMailtoFallback(
   result: RegistrationThankYouResult,
 ): void {
   if (result.ok) return
-  const subject = encodeURIComponent('Shop31 — підтвердження реєстрації')
+  const subject = encodeURIComponent('Shop33 — підтвердження реєстрації')
   const body = encodeURIComponent(
-    `Вітаємо, ${name}!\n\nВи зареєструвалися в Shop31. Логін (email): ${email}\n\n` +
+    `Вітаємо, ${name}!\n\nВи зареєструвалися в Shop33. Логін (email): ${email}\n\n` +
       '(Це чернетка у вашій поштовій програмі, бо EmailJS не налаштовано або сталася помилка відправлення.)\n\n' +
-      'Команда Shop31',
+      'Команда Shop33',
   )
   triggerMailto(`mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`)
 }
@@ -88,19 +88,19 @@ export async function notifyOrderPlaced(order: SavedOrder): Promise<void> {
     const guest = !order.customerEmail?.trim()
 
     if (guest) {
-      const subject = encodeURIComponent(`Нове замовлення Shop31 ${order.id}`)
+      const subject = encodeURIComponent(`Нове замовлення Shop33 ${order.id}`)
       const body = encodeURIComponent(`${summary}\n\n(Гість оформив замовлення; EmailJS не налаштовано.)`)
       triggerMailto(`mailto:${SHOP_ORDER_INBOX}?subject=${subject}&body=${body}`)
       return
     }
 
     const email = order.customerEmail!.trim()
-    const subject = encodeURIComponent(`Shop31 — ваше замовлення ${order.id}`)
+    const subject = encodeURIComponent(`Shop33 — ваше замовлення ${order.id}`)
     const body = encodeURIComponent(
       `${summary}\n\n(Чернетка у поштовій програмі; EmailJS не надіслав лист автоматично.)`,
     )
     triggerMailto(`mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`)
   } catch (e) {
-    console.warn('[Shop31] notifyOrderPlaced', e)
+    console.warn('[Shop33] notifyOrderPlaced', e)
   }
 }

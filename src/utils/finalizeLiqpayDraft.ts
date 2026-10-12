@@ -1,5 +1,5 @@
 /**
- * Shop31 — фіналізація замовлення після оплати LiqPay: бонуси + запис у orders.
+ * Shop33 — фіналізація замовлення після оплати LiqPay: бонуси + запис у orders.
  * Статус оплати перевіряється через server API (/api/liqpay/order-status).
  * Зв’язки: OrderThanksPage, pendingLiqpayCheckout, bonusStorage, ordersStorage, customerEmailFlow
  */

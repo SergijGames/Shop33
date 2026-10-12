@@ -1,5 +1,5 @@
 /**
- * Shop31 — підписи та hero-тексти каталогу залежно від мови (UK/EN).
+ * Shop33 — підписи та hero-тексти каталогу залежно від мови (UK/EN).
  * Зв’язки: catalogCategories, shopCategories, adminCatalogUiStorage, i18n Locale
  */
 import type { CatalogCategoryCard } from './catalogCategories'

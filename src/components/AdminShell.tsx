@@ -1,5 +1,5 @@
 /**
- * Shop31 — оболонка адмін-панелі: бічне меню, маршрути /admin/*, захист AdminGate.
+ * Shop33 — оболонка адмін-панелі: бічне меню, маршрути /admin/*, захист AdminGate.
  * Зв’язки: App.tsx, AuthContext (роль admin), pages/admin/*
  */
 import { useEffect } from 'react'
@@ -35,7 +35,7 @@ export function AdminShell() {
         <div className="admin-app__header-scan" aria-hidden="true" />
         <div className="container admin-app__header-inner">
           <Link to="/admin" className="admin-app__brand">
-            <span className="admin-app__brand-mark">Shop31</span>
+            <span className="admin-app__brand-mark">Shop33</span>
             <span className="admin-app__brand-tag">Admin</span>
           </Link>
           <nav className="admin-app__nav" aria-label="Адмін-панель">

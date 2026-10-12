@@ -1,5 +1,5 @@
 /**
- * Shop31 — хук бонусного балансу за email з підпискою на зміни bonusStorage.
+ * Shop33 — хук бонусного балансу за email з підпискою на зміни bonusStorage.
  * Зв’язки: CheckoutPage, AccountPage, bonusStorage.ts
  */
 import { useMemo, useSyncExternalStore } from 'react'

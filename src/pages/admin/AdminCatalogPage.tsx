@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: зовнішній вигляд каталогу (hero, порядок категорій).
+ * Shop33 — адмін: зовнішній вигляд каталогу (hero, порядок категорій).
  * Зв’язки: adminCatalogUiStorage, catalogDisplay, catalogCategories
  */
 import { useState, type FormEvent } from 'react'
@@ -12,7 +12,7 @@ import { AdminCatalogCategoriesSection } from './AdminCatalogCategoriesSection'
 import { AdminCatalogQuickProductForm } from './AdminCatalogQuickProductForm'
 import { AdminUserCatalogsSection } from './AdminUserCatalogsSection'
 
-const STORAGE_KEY = 'shop31_admin_catalog_ui_v1'
+const STORAGE_KEY = 'shop33_admin_catalog_ui_v1'
 
 function buildCleanPrefs(d: CatalogUiPrefs): CatalogUiPrefs {
   const out: CatalogUiPrefs = {}

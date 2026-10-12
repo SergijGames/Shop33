@@ -1,7 +1,7 @@
 services:
-  # Shop31 API (Node/Express)
+  # Shop33 API (Node/Express)
   - type: web
-    name: shop31-api
+    name: shop33-api
     runtime: node
     plan: starter
     region: frankfurt
@@ -16,7 +16,7 @@ services:
         value: 4242
       - key: DATABASE_URL
         fromDatabase:
-          name: shop31-db
+          name: shop33-db
           property: connectionString
       # Set manually in Render dashboard (do NOT commit secrets):
       # - JWT_SECRET
@@ -25,6 +25,6 @@ services:
       # - LIQPAY_PUBLIC_KEY / LIQPAY_PRIVATE_KEY
 
 databases:
-  - name: shop31-db
+  - name: shop33-db
     plan: starter
     region: frankfurt

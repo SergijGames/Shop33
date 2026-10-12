@@ -1,6 +1,6 @@
 {
-  "name": "shop31-payment-api",
-  "description": "Shop31 — API оплати Stripe (Express). Запуск: npm start у каталозі server/. Див. docs/СТРУКТУРА-ПРОЄКТУ.md",
+  "name": "shop33-payment-api",
+  "description": "Shop33 — API оплати Stripe (Express). Запуск: npm start у каталозі server/. Див. docs/СТРУКТУРА-ПРОЄКТУ.md",
   "private": true,
   "type": "module",
   "scripts": {

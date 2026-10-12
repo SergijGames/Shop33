@@ -1,5 +1,5 @@
 /**
- * Shop31 — результати пошуку за query; пресети та підказки з адмінки.
+ * Shop33 — результати пошуку за query; пресети та підказки з адмінки.
  * Зв’язки: searchProducts, adminSearch*Storage, ProductGrid, i18n
  */
 import { useMemo } from 'react'

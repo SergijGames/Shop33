@@ -1,5 +1,5 @@
 /**
- * Shop31 — пошук по каталогу (токени, синоніми, UK/EN назва категорії).
+ * Shop33 — пошук по каталогу (токени, синоніми, UK/EN назва категорії).
  * Зв’язки: SearchPage, HeaderSearch, adminSearchUiStorage, catalogDisplay
  */
 import type { Product } from '../data/products'

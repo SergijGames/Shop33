@@ -1,5 +1,5 @@
 /**
- * Shop31 — ініціали з імені для аватара в шапці та акаунті (1–2 літери).
+ * Shop33 — ініціали з імені для аватара в шапці та акаунті (1–2 літери).
  * Зв’язки: Layout.tsx, AccountPage
  */
 export function userDisplayInitials(name: string): string {

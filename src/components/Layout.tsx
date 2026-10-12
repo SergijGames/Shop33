@@ -1,5 +1,5 @@
 /**
- * Shop31 — каркас сторінок вітрини: шапка, футер, перемикач мови, Outlet.
+ * Shop33 — каркас сторінок вітрини: шапка, футер, перемикач мови, Outlet.
  * Пошук у шапці (HeaderSearch), навігація, блок профілю.
  * Зв’язки: App.tsx, HeaderSearch.tsx, AuthContext, ShopContext, I18nContext
  */
@@ -302,7 +302,7 @@ export function Layout() {
             <h3 className="footer__heading">{t('footer.contacts')}</h3>
             <ul className="footer__list">
               <li>
-                <a href="mailto:hello@shop31.ua">hello@shop31.ua</a>
+                <a href="mailto:hello@shop33.ua">hello@shop33.ua</a>
               </li>
             </ul>
           </div>

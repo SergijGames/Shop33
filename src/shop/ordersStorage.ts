@@ -1,8 +1,8 @@
 /**
- * Shop31 — історія замовлень у localStorage (клієнтська копія).
+ * Shop33 — історія замовлень у localStorage (клієнтська копія).
  * Зв’язки: CheckoutPage, OrderThanksPage, UserOrdersPage, useBonusBalance
  */
-const ORDERS_KEY = 'shop31_orders_v1'
+const ORDERS_KEY = 'shop33_orders_v1'
 
 export type OrderLine = {
   productId: string

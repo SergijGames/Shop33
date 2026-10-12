@@ -1,5 +1,5 @@
 /**
- * Shop31 — адмін: пресети пошуку та текст підказки на /search.
+ * Shop33 — адмін: пресети пошуку та текст підказки на /search.
  * Зв’язки: adminSearchPresetsStorage, adminSearchUiStorage
  */
 import { useMemo, useState, type FormEvent } from 'react'
@@ -18,8 +18,8 @@ import {
   type SearchUiPrefs,
 } from '../../shop/adminSearchUiStorage'
 
-const STORAGE_KEY = 'shop31_admin_search_ui_v1'
-const PRESETS_KEY = 'shop31_search_presets_v1'
+const STORAGE_KEY = 'shop33_admin_search_ui_v1'
+const PRESETS_KEY = 'shop33_search_presets_v1'
 
 export function AdminSearchPage() {
   const initial = loadSearchUiPrefs()

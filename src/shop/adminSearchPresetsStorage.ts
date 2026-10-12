@@ -1,8 +1,8 @@
 /**
- * Shop31 — швидкі пресети пошуку з адмінки (localStorage).
+ * Shop33 — швидкі пресети пошуку з адмінки (localStorage).
  * Зв’язки: AdminSearchPage, SearchPage, HeaderSearch (за потреби)
  */
-const KEY = 'shop31_search_presets_v1'
+const KEY = 'shop33_search_presets_v1'
 
 export type SearchPreset = {
   id: string

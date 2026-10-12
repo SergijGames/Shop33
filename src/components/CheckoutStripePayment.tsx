@@ -1,5 +1,5 @@
 /**
- * Shop31 — Stripe Payment Element (оплата карткою на сторінці checkout).
+ * Shop33 — Stripe Payment Element (оплата карткою на сторінці checkout).
  * Обгортає @stripe/react-stripe-js Elements; тексти кнопок через i18n.
  * Зв’язки: CheckoutPage.tsx, server/index.mjs
  */

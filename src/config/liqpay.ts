@@ -1,5 +1,5 @@
 /**
- * Shop31 — клієнтський конфіг LiqPay (вмикач, базовий URL API).
+ * Shop33 — клієнтський конфіг LiqPay (вмикач, базовий URL API).
  * Сервер підписує data/signature: server/index.mjs.
  * У .env кореня: VITE_LIQPAY_ENABLED=true, VITE_PAYMENT_API_URL (якщо API на іншому домені).
  */

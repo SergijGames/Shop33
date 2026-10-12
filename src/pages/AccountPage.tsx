@@ -1,5 +1,5 @@
 /**
- * Shop31 — профіль користувача: бонуси, меню, швидкі посилання.
+ * Shop33 — профіль користувача: бонуси, меню, швидкі посилання.
  * Зв’язки: AuthContext, ShopContext, bonusStorage, useBonusBalance, i18n
  */
 import type { FormEvent, ReactNode } from 'react'

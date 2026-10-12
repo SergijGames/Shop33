@@ -1,12 +1,12 @@
 /**
- * Shop31 — кастомні товари, додані в адмінці (localStorage), зливаються в catalog.
+ * Shop33 — кастомні товари, додані в адмінці (localStorage), зливаються в catalog.
  * Зв’язки: AdminProductsPage, data/catalog.ts
  */
 import type { Product, ProductReview, ProductVideo } from '../data/products'
 import type { ShopCategoryId } from '../data/shopCategories'
 import { shopCategories } from '../data/shopCategories'
 
-const KEY = 'shop31_admin_custom_products_v1'
+const KEY = 'shop33_admin_custom_products_v1'
 
 const CATEGORY_SET = new Set<string>(shopCategories.map((c) => c.id))
 

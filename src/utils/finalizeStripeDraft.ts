@@ -1,5 +1,5 @@
 /**
- * Shop31 — завершення оплаченого замовлення: бонуси, запис у orders після Stripe.
+ * Shop33 — завершення оплаченого замовлення: бонуси, запис у orders після Stripe.
  * Зв’язки: OrderThanksPage, bonusStorage, ordersStorage, pendingStripeCheckout
  */
 import { addBonus, getBonusBalance, spendBonus } from '../shop/bonusStorage'

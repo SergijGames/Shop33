@@ -1,5 +1,5 @@
 /**
- * Shop31 — обрані товари з кошика контексту; перехід у кошик.
+ * Shop33 — обрані товари з кошика контексту; перехід у кошик.
  * Зв’язки: ShopContext, catalog, ProductGrid, i18n
  */
 import { Link } from 'react-router-dom'

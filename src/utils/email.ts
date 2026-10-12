@@ -1,5 +1,5 @@
 /**
- * Shop31 — перевірка формату email для реєстрації/входу (validator).
+ * Shop33 — перевірка формату email для реєстрації/входу (validator).
  * Зв’язки: RegisterPage, LoginPage, auth-логіка
  */
 import validator from 'validator'

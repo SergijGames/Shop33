@@ -1,5 +1,5 @@
 /**
- * Shop31 — сторінка товару: галерея, ціна, кошик/обране, вкладки, відгуки.
+ * Shop33 — сторінка товару: галерея, ціна, кошик/обране, вкладки, відгуки.
  * Зв’язки: catalog, ShopContext, productReviewsStorage, i18n, formatMoney
  */
 import { useEffect, useMemo, useState } from 'react'
