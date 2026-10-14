@@ -3,7 +3,7 @@ services:
   - type: web
     name: shop33-api
     runtime: node
-    plan: starter
+    plan: free
     region: frankfurt
     rootDir: server
     buildCommand: npm ci && npx prisma generate && npx prisma db push
@@ -26,5 +26,5 @@ services:
 
 databases:
   - name: shop33-db
-    plan: starter
+    plan: free
     region: frankfurt
